@@ -122,7 +122,6 @@ class EmailSender():
 
 
 if __name__ == "__main__":
-
     e = EmailSender()
-    e.checkAndSendEmail()
+    
 
