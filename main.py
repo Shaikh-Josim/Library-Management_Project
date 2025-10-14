@@ -386,7 +386,8 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
                 userid = str(self.userid_input.text())
                 res = Mydb.search_userid(c,userid)
                 if res is None:
-                    e.err = ErrorCodes.USERID_SEARCH_NEWACCPAGE_FAILED
+                    #e.err = ErrorCodes.USERID_SEARCH_NEWACCPAGE_FAILED
+                    e.err = ErrorCodes(1)
                     raise e
 
                 if len(res) == 0:
@@ -414,7 +415,8 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
 
         except (AttributeError,CustomErrorAndLogWriting) as e :
             if isinstance(e,CustomErrorAndLogWriting):
-                if e.err == ErrorCodes.USERID_SEARCH_NEWACCPAGE_FAILED:
+                #if e.err == ErrorCodes.USERID_SEARCH_NEWACCPAGE_FAILED:
+                if e.err == ErrorCodes(1):
                     e.writeFailedOperation("Cant search userid for creating new account page. Check error log.")
                 elif e.err == ErrorCodes.USERID_SEARCH_APPLYNEWLIBCARDPAGE_FAILED:
                     e.writeFailedOperation(emsg="Cant search userid for apply new libcard page. Check error log.")
