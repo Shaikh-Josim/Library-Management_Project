@@ -202,13 +202,10 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
         self.checkBox.clicked.connect(self.unHidePassword)
         self.label_3.setText('')
         reg = RegExp()
-        #self.userid_input.setValidator(QRegularExpressionValidator(reg.useridValidator()))
         self.userid_input.setValidator(CustomValidator(reg.useridValidator(),msg="username12@domain-name.com"))
         self.userid_input.setToolTip("Enter your userid\ne.g: username12@gmail.com")
-        #self.firstname_input.setValidator(QRegularExpressionValidator(reg.stringValidator()))
         self.firstname_input.setValidator(CustomValidator(reg.stringValidator(),msg="firstname containing alphabates"))
         self.firstname_input.setToolTip("Enter your first name")
-        #self.lastname_input.setValidator(QRegularExpressionValidator(reg.stringValidator()))
         self.lastname_input.setValidator(CustomValidator(reg.stringValidator(),msg="lastname containing alphabates"))
         self.lastname_input.setToolTip("Enter your last name")
         self.userid_input.textChanged.connect(self.checkUserId)
@@ -216,7 +213,6 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
         self.back_btn1.clicked.connect(lambda:self.stackedWidget.setCurrentIndex(0))
         
         #setting ui for login window
-        #self.userid_lineedit_2.setValidator(QRegularExpressionValidator(reg.useridValidator()))
         self.userid_lineedit_2.setValidator(CustomValidator(reg.useridValidator(),msg="username12@domain-name.com"))
         self.userid_lineedit_2.setToolTip("Enter your email id")
         self.pass_lineedit.setEchoMode(QLineEdit.EchoMode.Password)
@@ -243,27 +239,20 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
         self.booksearch_ln1.textChanged.connect(self.showAllBooksPageFun)
 
         #setting ui for apply librarycard widget
-        #self.first_name_ln.setValidator(QRegularExpressionValidator(reg.stringValidator()))
         self.first_name_ln.setValidator(CustomValidator(reg.stringValidator(),msg="firstname containing alphabates"))
         self.first_name_ln.setToolTip("Enter the first name")
-        #self.last_name_ln.setValidator(QRegularExpressionValidator(reg.stringValidator()))
         self.last_name_ln.setValidator(CustomValidator(reg.stringValidator(),msg="lastname containing alphabates"))
         self.last_name_ln.setToolTip("Enter the last name")
-        #self.phno_ln.setValidator(QRegularExpressionValidator(reg.phnoValidator()))
         self.phno_ln.setValidator(CustomValidator(reg.phnoValidator(),msg="1234567890"))
         self.phno_ln.setToolTip("Enter phone number")
-        #self.userid_ln.setValidator(QRegularExpressionValidator(reg.useridValidator()))
         self.userid_ln.setValidator(CustomValidator(reg.useridValidator(),msg="username12@domain-name.com"))
         self.userid_ln.setToolTip("Enter userid\n e.g.: abc@gmail.com")
         self.userid_ln.textChanged.connect(self.checkUserId)
         self.label_3a.setText('')
-        #self.state_ln.setValidator(QRegularExpressionValidator(reg.stringValidator()))
         self.state_ln.setValidator(CustomValidator(reg.stringValidator(),msg="state name containing alphabates"))
         self.state_ln.setToolTip("Enter state")
-        #self.city_ln.setValidator(QRegularExpressionValidator(reg.stringValidator()))
         self.city_ln.setValidator(CustomValidator(reg.stringValidator(),msg="city name containing alphabates"))
         self.city_ln.setToolTip("Enter city name")
-        #self.streetaddress_ln.setValidator(QRegularExpressionValidator(reg.alphanumericValidator()))
         self.streetaddress_ln.setValidator(CustomValidator(reg.alphanumericValidator(),msg="34,near hosipital"))
         self.streetaddress_ln.setToolTip("Enter your house address")
         self.gen = ''
@@ -278,9 +267,6 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
         self.photo_label.setScaledContents(True)
         self.ok_btn_2.clicked.connect(self.showLibcardApplyPageFun)
         self.addphotobtn.clicked.connect(self.addPhoto)
-        
-
-
 
         #setting ui for show borrowers widget
         self.comboBox.currentIndexChanged.connect(self.showBorrowerPageFun)
@@ -289,18 +275,13 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
 
         #setting ui for add new book widget
         self.pushButton.clicked.connect(self.showAddNewBookPageFun)
-        #self.authoname_ln.setValidator(QRegularExpressionValidator(reg.stringValidatorWithSpace()))
         self.authoname_ln.setValidator(CustomValidator(reg.stringValidatorWithSpace(),msg="authorname alphabates only"))
         self.authoname_ln.setToolTip("Enter author name")
-        #self.booktitle_ln.setValidator(QRegularExpressionValidator(reg.stringValidatorWithSpace()))
         self.booktitle_ln.setValidator(CustomValidator(reg.stringValidatorWithSpace(),msg="book title alphabates only"))
         self.booktitle_ln.setToolTip("Enter book title")
-        #self.categories_ln.setValidator(QRegularExpressionValidator(reg.stringValidatorWithCommas()))
         self.newcat_lineedit.setValidator(CustomValidator(reg.stringValidatorWithSpace(),msg="horror"))
-        #self.copies_ln.setValidator(QRegularExpressionValidator(reg.numbersOnly()))
         self.copies_ln.setValidator(CustomValidator(reg.numbersOnly(),msg="numbers only"))
         self.copies_ln.setToolTip("Enter number of copies of books")
-        #self.isbn_ln.setValidator(QRegularExpressionValidator(reg.isbnValidator()))
         self.isbn_ln.setValidator(CustomValidator(reg.isbnValidator(),msg="111-1111-1111-11"))
         self.isbn_ln.setToolTip("Enter isbn number of book here")
         self.findAndSetCategory()
@@ -311,29 +292,19 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
         self.issue_book_btn.clicked.connect(self.showBookissuePageFun)
         self.ok_btn_3.clicked.connect(self.addbooktoissue)
         self.ok_btn_3.setDisabled(True)
-        #self.libcardno_ln.setValidator(QRegularExpressionValidator(reg.numbersOnly()))
         self.libcardno_ln.setValidator(CustomValidator(reg.libcardnoValidator(),msg="numbers only"))
         self.libcardno_ln.textChanged.connect(lambda text, obj=self.libcardno_ln.objectName(): self.showLibcardHolderInfo(obj, text))
 
         self.libcardno_ln.on_focus.connect(self.onFocus)
         self.bookisbn_ln1.on_focus.connect(self.onFocus)
-        #self.bookisbn_ln1.setValidator(QRegularExpressionValidator(reg.isbnValidator()))
         self.bookisbn_ln1.setValidator(CustomValidator(reg.isbnValidator(),msg="111-1111-1111-11"))
         self.bookisbn_ln1.textChanged.connect(self.setAddBookbtnEnable)
         self.libcardholderinfo_bookissue_widget.setHidden(True)
-        self.scan_n_fetch_btn1.clicked.connect(self.onScanAndFetch)
-        """@self.numberofbooks_sb.setMinimum(1)
-            pass
-        @self.numberofbooks_sb.setMaximum(5)
-            pass
-        @self.numberofbooks_sb.valueChanged.connect(self.addLineEdits)"""
-            
+        self.scan_n_fetch_btn1.clicked.connect(self.onScanAndFetch)            
 
         #setting ui for book return widget
         self.pushButton_2.clicked.connect(self.showBookReturnPageFun)
-        #self.libcardno_ln_2.setValidator(QRegularExpressionValidator(reg.numbersOnly()))
         self.libcardno_ln_2.setValidator(CustomValidator(reg.numbersOnly(),msg="numbers only"))
-        #self.bookisbn_return_ln.setValidator(QRegularExpressionValidator(reg.isbnValidator()))
         self.libcardno_ln_2.textChanged.connect(lambda text, obj=self.libcardno_ln_2.objectName(): self.showLibcardHolderInfo(obj, text))
         self.showreturnedbooks_tableWidget.itemChanged.connect(self.onCBChangeReturnBooks)
         self.libcardholderinfo_bookreturn_widget.setHidden(True)
@@ -341,15 +312,6 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
         self.scan_n_fetch_btn2.clicked.connect(self.onScanAndFetch)
         self.pushButton_2.setDisabled(True)
         self.paypenaltybtn.clicked.connect(self.payPenalty)
-        #self.bookisbn_ln1.on_focus.connect(self.onFocus)
-        #self.bookisbn_ln1.textChanged.connect(self.setAddBookbtnEnable)
-        
-        #
-        """
-        self.bookisbn_return_ln.setValidator(CustomValidator(reg.isbnValidator(),msg="111-1111-1111-11"))
-        self.numberofbooks_sb_2.setMinimum(1)
-        self.numberofbooks_sb_2.setMaximum(5)
-        self.numberofbooks_sb_2.valueChanged.connect(self.addLineEdits)"""
         self.spacerItem18 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
 
         #set ui for show all registered Users widget
@@ -386,8 +348,7 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
                 userid = str(self.userid_input.text())
                 res = Mydb.search_userid(c,userid)
                 if res is None:
-                    #e.err = ErrorCodes.USERID_SEARCH_NEWACCPAGE_FAILED
-                    e.err = ErrorCodes(1)
+                    e.err = ErrorCodes(100)
                     raise e
 
                 if len(res) == 0:
@@ -401,7 +362,7 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
                 self.is_userid_unique = None #variable to check if userid is unique in apply new libcard page
                 res = Mydb.search_userid(c,userid)
                 if res == None:
-                    e.err = ErrorCodes.USERID_SEARCH_APPLYNEWLIBCARDPAGE_FAILED
+                    e.err = ErrorCodes(101)
                     raise e
                 
                 if len(res) == 0:
@@ -415,11 +376,10 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
 
         except (AttributeError,CustomErrorAndLogWriting) as e :
             if isinstance(e,CustomErrorAndLogWriting):
-                #if e.err == ErrorCodes.USERID_SEARCH_NEWACCPAGE_FAILED:
-                if e.err == ErrorCodes(1):
-                    e.writeFailedOperation("Cant search userid for creating new account page. Check error log.")
-                elif e.err == ErrorCodes.USERID_SEARCH_APPLYNEWLIBCARDPAGE_FAILED:
-                    e.writeFailedOperation(emsg="Cant search userid for apply new libcard page. Check error log.")
+                if e.err == ErrorCodes(100):
+                    e.writeFailedOperation("Userid search for creating new account failed. Check error log.")
+                elif e.err == ErrorCodes(101):
+                    e.writeFailedOperation(emsg="Userid search for new libcard failed. Check error log.")
                     
             elif isinstance(e,AttributeError):
                 CustomErrorAndLogWriting().writeSingleErrorInLog(traceback.format_exc())
@@ -479,62 +439,6 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
             self.sidemenu_widget.show();self.sa_sidewidget.show()
         else:
             self.sidemenu_widget.hide();self.sa_sidewidget.hide()
-
-    def addLineEdits(self,count):
-        #adding lineedits dynamicly
-        reg = RegExp()
-        ob = self.sender().objectName()
-        self.dynamiclineedits= []
-        self.dynamiclineedits2= []
-        if ob == "numberofbooks_sb":
-
-            for i in reversed(range(self.gridLayout_8.count())):
-                widget = self.gridLayout_8.itemAt(i).widget()
-                if isinstance(widget, QLineEdit) and widget.objectName() != "libcardno_ln":
-                    self.gridLayout_8.removeWidget(widget)
-                    widget.deleteLater()
-            
-            # Add new QLineEdits based on the spin box value
-            self.gridLayout_8.removeItem(self.spacerItem15)
-            self.gridLayout_8.removeWidget(self.ok_btn_3)
-            for i in range(1,count+1):
-
-                self.lineEdit = QLineEdit(self,objectName = "dybookisbn_ln"+str(i))
-                #self.lineEdit.setValidator(QRegularExpressionValidator(reg.isbnValidator()))
-                self.lineEdit.setValidator(CustomValidator(reg.isbnValidator(),msg="111-1111-1111-11"))
-                self.gridLayout_8.addWidget(self.lineEdit,6+i,1,1,1)
-                self.dynamiclineedits.append(self.lineEdit)
-            
-            self.gridLayout_8.addWidget(self.ok_btn_3,6+i+1,1,1,1)
-            self.gridLayout_8.addItem(self.spacerItem15,6+i+2,0,1,1)
-        
-        elif ob == "numberofbooks_sb_2":
-            for i in reversed(range(self.gridLayout_9.count())):
-                widget = self.gridLayout_9.itemAt(i).widget()
-                if isinstance(widget, QLineEdit) and widget.objectName() != "libcardno_ln_2":
-                    self.gridLayout_9.removeWidget(widget)
-                    widget.deleteLater()
-            self.gridLayout_9.removeItem(self.spacerItem18)
-            self.gridLayout_9.removeWidget(self.pushButton_2)
-            # Add new QLineEdits based on the spin box value
-            for i in range(1,count+1):
-                
-                self.lineEdit = QLineEdit(self,objectName = "dybookisbn_ln"+str(i))
-                #self.lineEdit.setValidator(QRegularExpressionValidator(reg.isbnValidator()))
-                self.lineEdit.setValidator(CustomValidator(reg.isbnValidator(),msg="111-1111-1111-11"))
-                self.gridLayout_9.addWidget(self.lineEdit,6+i,1,1,1)
-                self.dynamiclineedits2.append(self.lineEdit)
-            
-            self.gridLayout_9.addWidget(self.pushButton_2,6+i+1,1,1,1)
-            self.gridLayout_9.addItem(self.spacerItem18,6+i+2,0,1,1)
-
-    def is_widget_in_layout(self,layout, widget_to_check):
-        #Finding if specific widget is in specific layout
-        for i in range(layout.count()):
-            item = layout.itemAt(i)
-            if item.widget() == widget_to_check:
-                return True
-        return False
     
     def make_circle_pixmap(self, image_path, diameter):
         pixmap = QPixmap(image_path)
@@ -598,12 +502,12 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
             if (fn != "") and ( ln != "") and (userid != "") and ("@" in userid and ".com" in userid) and (p != "") and len(p)>7:
                 ano = Mydb.genid(c,"Ano","passwordsinfo")
                 if ano is None:
-                    e.err = ErrorCodes.GENRATE_ID_PASSWORDINFO_FAILED
+                    e.err = ErrorCodes(200)
                     raise e
                 input()    
                 failed = Mydb.insert_into_passwordinfo(c,ano,fn,ln,userid,p)
                 if failed:
-                    e.err = ErrorCodes.INSERT_NEWUSER_PASSWORDINFO_FAILED
+                    e.err = ErrorCodes(300)
                     raise e
 
                 else:
@@ -622,10 +526,10 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
             if isinstance(e,AttributeError):
                 CustomErrorAndLogWriting().writeSingleErrorInLog(traceback.format_exc())
             elif isinstance(e,CustomErrorAndLogWriting):
-                if e.err == ErrorCodes.GENRATE_ID_PASSWORDINFO_FAILED:
-                    e.writeFailedOperation("Can't generate id for new user for create new account page")
-                elif e.err == ErrorCodes.INSERT_NEWUSER_PASSWORDINFO_FAILED:
-                    e.writeFailedOperation("Cant insert new user")
+                if e.err == ErrorCodes(200):
+                    e.writeFailedOperation("Failed to generate id for new user for create new account page")
+                elif e.err == ErrorCodes(300):
+                    e.writeFailedOperation("Failed to insert new user")
                     try:
                         db.rollback()
                     except Exception:
@@ -687,7 +591,7 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
             if (p != "") and len(p)>7:
                 res = Mydb.checkuser_in_passwordinfo(c,userid,p)
                 if res is None:
-                    e.err = ErrorCodes.CHECK_USERID_AND_PASS_PASSWORDINFO_FAILED
+                    e.err = ErrorCodes(400)
                     raise e
                 if len(res) == 0:
                     m.warning(self,"Failed","Login Failed please check the password or userid you entered")
@@ -715,7 +619,7 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
             if isinstance(e,AttributeError):
                 CustomErrorAndLogWriting().writeSingleErrorInLog(traceback.format_exc())
             elif isinstance(e,CustomErrorAndLogWriting):
-                if e.err == ErrorCodes.CHECK_USERID_AND_PASS_PASSWORDINFO_FAILED:
+                if e.err == ErrorCodes(400):
                     e.writeFailedOperation("Cant find userid with corresponding password to login.")
             elif isinstance(e,Exception):
                 #to catch any error
@@ -744,7 +648,7 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
             try:
                 lid = Mydb.genid(c,"libcard_id","library_card_info")
                 if lid is None:
-                    e.err = ErrorCodes.GENRATE_ID_LIBRARYCARDINFO_FAILED
+                    e.err = ErrorCodes(201)
                     raise e
                     
                 libcardno=random.randint(10000000000000,99999999999999)
@@ -753,24 +657,24 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
                 
                 res = Mydb.checklocation_existence(c,stad,city,state)
                 if res is None:
-                    e.err = ErrorCodes.LOCATION_SEARCH_APPLYNEWLIBCARDPAGE_FAILED
+                    e.err = ErrorCodes(102)
                     raise e
                 rowc=len(res)
                     #if not
                 if(rowc==0):
                     locid = Mydb.genid(c,"lid","location")
                     if locid is None:
-                        e.err = ErrorCodes.GENRATE_ID_LOCATION_FAILED
+                        e.err = ErrorCodes(202)
                         raise e
                     
                     failed1=Mydb.insert_new_location(c,locid,stad,city,state)
                     if failed1:
-                        e.err = ErrorCodes.INSERT_NEW_LOCATION_FAILED
+                        e.err = ErrorCodes(301)
                         raise e
                 
                     failed2=Mydb.insert_new_libcard(c,lid,fn,ln,gen,locid,phno,userid,libcardno,photo_path)
                     if failed2:
-                        e.err = ErrorCodes.INSERT_NEW_LIBRARYCARD_FAILED
+                        e.err = ErrorCodes(302)
                         raise e
                     
                     db.commit()
@@ -790,7 +694,7 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
                         locid=int(row[0])
                         failed2=Mydb.insert_new_libcard(c,lid,fn,ln,gen,locid,phno,userid,libcardno,photo_path)
                         if failed2:
-                            e.err = ErrorCodes.INSERT_NEW_LIBRARYCARD_WITH_LOCID_FAILED
+                            e.err = ErrorCodes(303)
                             raise e
                         
                         db.commit()
@@ -818,27 +722,27 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
                     self.e_msg = self.e_msg+traceback.format_exc()+"\n"
 
                 elif isinstance(e,CustomErrorAndLogWriting):
-                    if e.err == ErrorCodes.GENRATE_ID_LIBRARYCARDINFO_FAILED:
+                    if e.err == ErrorCodes(201):
                         e.writeFailedOperation("Failed to genrate new library card id (primary key).")
-                    elif e.err == ErrorCodes.LOCATION_SEARCH_APPLYNEWLIBCARDPAGE_FAILED:
-                        e.writeFailedOperation("Failed to search for given location existence.")
-                    elif e.err == ErrorCodes.GENRATE_ID_LOCATION_FAILED:
-                        e.writeFailedOperation("Failed to generate new id for location.")
-                    elif e.err == ErrorCodes.INSERT_NEW_LOCATION_FAILED:
+                    elif e.err == ErrorCodes(102):
+                        e.writeFailedOperation("Failed to search for given location.")
+                    elif e.err == ErrorCodes(202):
+                        e.writeFailedOperation("Failed to generate new id for new location.")
+                    elif e.err == ErrorCodes(301):
                         try:
                             db.rollback()
                             e.writeFailedOperation("Failed to insert new location entry in location table.")
                         except Exception:
                             #to catch error related to rollback
                             CustomErrorAndLogWriting().writeSingleErrorInLog(traceback.format_exc())
-                    elif e.err == ErrorCodes.INSERT_NEW_LIBRARYCARD_FAILED:
+                    elif e.err == ErrorCodes(302):
                         try:
                             db.rollback()
                             e.writeFailedOperation("Failed to insert new library card entry in library_card_info table.")
                         except Exception:
                             #to catch error related to rollback
                             CustomErrorAndLogWriting().writeSingleErrorInLog(traceback.format_exc())
-                    elif e.err == ErrorCodes.INSERT_NEW_LIBRARYCARD_WITH_LOCID_FAILED:
+                    elif e.err == ErrorCodes(303):
                         try:
                             db.rollback()
                             e.writeFailedOperation("Failed to insert new library card entry having existing location id as argument in library_card_info table.")
@@ -861,7 +765,6 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
 
     def showAllBooksPageFun(self,text):
         #show all books
-        #not fixed
         Mydb = Dbconnection()
         e = CustomErrorAndLogWriting()
         c,db = Mydb.makeConnection()
@@ -871,7 +774,7 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
             self.showallbooks_tableWidget.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
             header,result = Mydb.showAllBooks(c,str(text))
             if header is None or result is None:
-                e.err = ErrorCodes.BOOK_SEARCH_BOOKDETAILS_FAILED
+                e.err = ErrorCodes(103)
                 raise e
             if result:
                 self.showallbooks_tableWidget.setColumnCount(len(result[0]))
@@ -894,7 +797,7 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
                 self.errors_names.append("mysql")
                 self.e_msg = self.e_msg+traceback.format_exc()+"\n"
             elif isinstance(e,CustomErrorAndLogWriting):
-                if e.err == ErrorCodes.BOOK_SEARCH_BOOKDETAILS_FAILED:
+                if e.err == ErrorCodes(103):
                     e.writeFailedOperation(emsg="Failed to search book with given text")
 
             elif isinstance(e,Exception):
@@ -924,7 +827,7 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
                 self.showborrowers_tableWidget.setRowCount(0)
                 header,result = Mydb.showAllBorrowers(c)
                 if header is None or result is None:
-                    e.err = ErrorCodes.SHOW_ALLBORROWERS_BORROWERSDETAILS_FAILED
+                    e.err = ErrorCodes(500)
                     raise e
                 if header and result :
                     if len(result) != 0:
@@ -944,7 +847,7 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
                 self.showborrowers_tableWidget.setRowCount(0)
                 header,result = Mydb.showReturnedBorrowers(c)
                 if header is None or result is None:
-                    e.err = ErrorCodes.SHOW_BORROWERSRETURNED_BORROWERSDETAILS_FAILED
+                    e.err = ErrorCodes(501)
                     raise e
                 if len(result) != 0:
                     self.showborrowers_tableWidget.setColumnCount(len(result[0]))
@@ -962,7 +865,7 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
                 
                 header,result = Mydb.showNotReturnedBorrowers(c)
                 if header is None or result is None:
-                    e.err = ErrorCodes.SHOW_BORROWERSNOTRETURNED_BORROWERSDETAILS_FAILED
+                    e.err = ErrorCodes(502)
                     raise e
                 if len(result) != 0:
                     self.showborrowers_tableWidget.setColumnCount(len(result[0]))
@@ -986,11 +889,11 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
                 self.e_msg = self.e_msg+traceback.format_exc()+"\n"
 
             elif isinstance(e,CustomErrorAndLogWriting):
-                if e.err == ErrorCodes.SHOW_ALLBORROWERS_BORROWERSDETAILS_FAILED:
+                if e.err == ErrorCodes(500):
                     e.writeFailedOperation(emsg="Failed to fetch information about all borrowers. Check logs for more information about errors.")
-                elif e.err == ErrorCodes.SHOW_BORROWERSRETURNED_BORROWERSDETAILS_FAILED:
+                elif e.err == ErrorCodes(501):
                     e.writeFailedOperation(emsg="Failed to fetch information about borrowers who have returned the book. Check logs for more information about errors.")
-                elif e.err == ErrorCodes.SHOW_BORROWERSNOTRETURNED_BORROWERSDETAILS_FAILED:
+                elif e.err == ErrorCodes(502):
                     e.writeFailedOperation(emsg="Failed to fetch information about borrowers who haven't returned the books. Check logs for more information about errors.")
 
             elif isinstance(e,Exception):
@@ -1023,7 +926,7 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
 
             res = Mydb.showAllCategories(c)
             if res is None:
-                e.err = ErrorCodes.SHOW_ALLCATEGORY_ADDNEWBOOK_FAILED
+                e.err = ErrorCodes(510)
                 raise e
             categories = [row[0] for row in res]
             print(categories)
@@ -1050,7 +953,7 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
                 self.e_msg = self.e_msg+traceback.format_exc()+"\n"
             elif isinstance(e,CustomErrorAndLogWriting):
                 error_messages = {
-                ErrorCodes.SHOW_ALLCATEGORY_ADDNEWBOOK_FAILED: "Failed to fetch all categories from db to show it on add new book page."
+                ErrorCodes(510): "Failed to fetch all categories from db to show it on add new book page."
                 }
                 if e.err in error_messages:
                     e.writeFailedOperation(emsg=error_messages[e.err])
@@ -1081,16 +984,16 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
                 raise e
             res=Mydb.getCategoryid(c,category_name)
             if res:
-                e.err = ErrorCodes.CHECK_CATEGORYEXISTENCE_CATEGORYDETAILS_FAILED
+                e.err = ErrorCodes(402)
                 raise e
             cid = Mydb.genid(c,"cid","category_details")
             if cid is None:
-                e.err = ErrorCodes.GENRATE_ID_CATEGORYDETAILS_FAILED
+                e.err = ErrorCodes(205)
                 raise e
         
             failed=Mydb.insert_new_category(c,cid,category_name)
             if failed:
-                e.err = ErrorCodes.INSERT_NEWCATEGORY_CATEGORYDETAILS_FAILED
+                e.err = ErrorCodes(306)
                 raise e
             db.commit()
             self.newcat_lineedit.clear()
@@ -1109,9 +1012,9 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
             
             elif isinstance(e,CustomErrorAndLogWriting):
                 error_messages = {
-        ErrorCodes.GENRATE_ID_CATEGORYDETAILS_FAILED: "Failed to generate new category ID for adding new book.",
-        ErrorCodes.INSERT_NEWCATEGORY_CATEGORYDETAILS_FAILED: "Failed to insert new book for adding new book page.",
-        ErrorCodes.CHECK_CATEGORYEXISTENCE_CATEGORYDETAILS_FAILED: "The category you are trying to add is already in categories."
+        ErrorCodes(205): "Failed to generate new category ID for adding new book.",
+        ErrorCodes(306): "Failed to insert new book for adding new book page.",
+        ErrorCodes(402): "The category you are trying to add is already in categories."
     }
 
                 if e.err in error_messages:
@@ -1145,49 +1048,49 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
             try:
                 aid = Mydb.genid(c,"aid","author_details")
                 if aid is None:
-                    e.err = ErrorCodes.GENRATE_ID_AUTHORDETAILS_FAILED
+                    e.err = ErrorCodes(203)
                     raise e
                     
                 bid = Mydb.genid(c,"bid","book_details")
                 if bid is None:
-                    e.err = ErrorCodes.GENRATE_ID_BOOKDETAILS_FAILED
+                    e.err = ErrorCodes(204)
                     raise e
                     
                 res2 = Mydb.checkIfBookExist(c,isbn,book_title,author_name)
                 if res2 is None:
-                    e.err = ErrorCodes.CHECK_BOOK_BOOKDETAILS_FAILED
+                    e.err = ErrorCodes(401)
                     raise e
                     
                 rowc2=len(res2)
                 if rowc2 == 0:
                     res = Mydb.getAuthorid(c,author_name=author_name)
                     if res is None:
-                        e.err = ErrorCodes.GET_AUTHORID_USINGAUTHORNAME_FAILED
+                        e.err = ErrorCodes(800)
                         raise e
                         
                     rowc=len(res)
                     if(rowc==0):    #if author name is not in db
                         failed1=Mydb.insert_new_author(c,aid,author_name)
                         if failed1:
-                            e.err = ErrorCodes.INSERT_NEW_AUTHOR_AUTHORDETAILS_FAILED
+                            e.err = ErrorCodes(304)
                             raise e
                         
                         #adding book when author name is not in db
                         failed2=Mydb.insert_new_book(c,bid,isbn,book_title,aid,no_of_copies)
                         if failed2:
-                            e.err = ErrorCodes.INSERT_NEWBOOK_BOOKDETAILS_NOAUTHOR_FAILED
+                            e.err = ErrorCodes(305)
                             raise e
                             #identifying if entered category exists in db or not
                         for Category_name in cn:
                             res=Mydb.getCategoryid(c,Category_name)
                             if res is None:
-                                e.err = ErrorCodes.GET_CATEGORYID_NOAUTHOR_USINGCATEGORYNAME_FAILED
+                                e.err = ErrorCodes(802)
                                 raise e                     
                             for row in res:
                                 cid=int(row[0])
                             failed4=Mydb.insert_new_category_in_bookcategory(c,bid,cid)
                             if failed4:
-                                e.err = ErrorCodes.INSERT_NEWCATEGORY_BOOKCATEGORY_NOAUTHOR_WITHCAT_FAILED
+                                e.err = ErrorCodes(307)
                                 raise e
                     #if author exist in db    
                     else:
@@ -1195,14 +1098,14 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
                             aid=int(row[0])
                         failed2=Mydb.insert_new_book(c,bid,isbn,book_title,aid,no_of_copies)
                         if failed2:
-                                    e.err = ErrorCodes.INSERT_NEWBOOK_BOOKDETAILS_WITHAUTHOR_FAILED
+                                    e.err = ErrorCodes(309)
                                     raise e
 
                         for Category_name in cn:
                             res=Mydb.getCategoryid(c,Category_name)
                             print(Category_name)
                             if res is None:
-                                e.err = ErrorCodes.GET_CATEGORYID_WHENAUTHOR_USINGCATEGORYNAME_FAILED
+                                e.err = ErrorCodes(801)
                                 raise e
                             #if category is in db
                             for row in res:
@@ -1210,13 +1113,13 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
                             print("bid:cid =",bid,":",cid)
                             failed4=Mydb.insert_new_category_in_bookcategory(c,bid,cid)
                             if failed4:
-                                e.err = ErrorCodes.INSERT_NEWCATEGORY_BOOKCATEGORY_WITHAUTHOR_WITHCAT_FAILED
+                                e.err = ErrorCodes(308)
                                 raise e
                                 
                     db.commit()
                     res = Mydb.getBookTitle(c,bid)
                     if res is None:
-                        e.err = ErrorCodes.GET_BOOKTITLE_USINGBID_FAILED
+                        e.err = ErrorCodes(803)
                         raise e
                     for rows in res:
                         booktitle=str(rows[0])
@@ -1249,24 +1152,24 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
                 
                 elif isinstance(e,CustomErrorAndLogWriting):
                     error_messages = {
-            ErrorCodes.GENRATE_ID_AUTHORDETAILS_FAILED: "Failed to generate author ID for adding new book.",
-            ErrorCodes.GENRATE_ID_BOOKDETAILS_FAILED: "Failed to generate book ID for adding new book.",
-            ErrorCodes.CHECK_BOOK_BOOKDETAILS_FAILED: "Failed to check if book already exists.",
-            ErrorCodes.GET_AUTHORID_USINGAUTHORNAME_FAILED: "Failed to fetch author ID if it already exists.",
-            ErrorCodes.INSERT_NEW_AUTHOR_AUTHORDETAILS_FAILED: "Failed to insert new author for adding a new book.",
-            ErrorCodes.INSERT_NEWBOOK_BOOKDETAILS_NOAUTHOR_FAILED: "Failed to insert new book when author does not exist.",
-            ErrorCodes.GET_CATEGORYID_NOAUTHOR_USINGCATEGORYNAME_FAILED: "Failed to get category ID using category name when author does not exist.",
+            ErrorCodes(203): "Failed to generate author ID for adding new book.",
+            ErrorCodes(204): "Failed to generate book ID for adding new book.",
+            ErrorCodes(401): "Failed to check if book already exists.",
+            ErrorCodes(800): "Failed to fetch author ID if it already exists.",
+            ErrorCodes(304): "Failed to insert new author for adding a new book.",
+            ErrorCodes(305): "Failed to insert new book when author does not exist.",
+            ErrorCodes(802): "Failed to get category ID using category name when author does not exist.",
             #ErrorCodes.GENRATE_ID_CATEGORYDETAILS_NOAUTHOR_FAILED: "Failed to generate category ID when author does not exist.",
             #ErrorCodes.INSERT_NEWCATEGORY_CATEGORYDETAILS_NOAUTHOR_FAILED: "Failed to insert new category when author does not exist.",
             #ErrorCodes.INSERT_NEWCATEGORY_BOOKCATEGORY_NOAUTHOR_NOCAT_FAILED: "Failed to insert book-category relation when author and category do not exist.",
-            ErrorCodes.INSERT_NEWCATEGORY_BOOKCATEGORY_NOAUTHOR_WITHCAT_FAILED: "Failed to insert book-category relation when author does not exist but category exists.",
-            ErrorCodes.INSERT_NEWBOOK_BOOKDETAILS_WITHAUTHOR_FAILED: "Failed to insert new book when author exists.",
-            ErrorCodes.GET_CATEGORYID_WHENAUTHOR_USINGCATEGORYNAME_FAILED: "Failed to get category ID using category name when author exists.",
+            ErrorCodes(307): "Failed to insert book-category relation when author does not exist but category exists.",
+            ErrorCodes(309): "Failed to insert new book when author exists.",
+            ErrorCodes(801): "Failed to get category ID using category name when author exists.",
             #ErrorCodes.GENRATE_ID_CATEGORYDETAILS_WHENAUTHOR_FAILED: "Failed to generate new category ID when author exists.",
             #ErrorCodes.INSERT_NEWCATEGORY_CATEGORYDETAILS_WITHAUTHOR_FAILED: "Failed to insert new category when author exists.",
             #ErrorCodes.INSERT_NEWCATEGORY_BOOKCATEGORY_WITHAUTHOR_NOCAT_FAILED: "Failed to insert new book-category relation when author exists but category does not.",
-            ErrorCodes.INSERT_NEWCATEGORY_BOOKCATEGORY_WITHAUTHOR_WITHCAT_FAILED: "Failed to insert new book-category relation when both author and category exist.",
-            ErrorCodes.GET_BOOKTITLE_USINGBID_FAILED: "Failed to fetch book title using book ID.",
+            ErrorCodes(308): "Failed to insert new book-category relation when both author and category exist.",
+            ErrorCodes(803): "Failed to fetch book title using book ID.",
         }
 
                     if e.err in error_messages:
@@ -1392,7 +1295,7 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
             m = QMessageBox()
             res = Mydb.checkPenalty(c,self.libcardno_ln_2.text())#64354968968184
             if res is None:
-                e.err = ErrorCodes.CHECK_PENALTY_BORROWERDETAILS_FAILED
+                e.err = ErrorCodes(403)
                 raise e
             print(res)
             if len(res) != 0:
@@ -1412,7 +1315,7 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
             
             elif isinstance(err,CustomErrorAndLogWriting):
                 error_messages = {
-                ErrorCodes.CHECK_PENALTY_BORROWERDETAILS_FAILED: "Failed to check penalty for the borrower."
+                ErrorCodes(403): "Failed to check penalty for the borrower."
                 }
                 if e.err in error_messages:
                     e.writeFailedOperation(emsg=error_messages[e.err])
@@ -1515,14 +1418,14 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
                                 print("set penalty to: ",at)
                                 failed1=Mydb.updatePenaltyInBorrowerDetails(c,borwid=key,penalty=val, new_penalty=at)
                                 if failed1:
-                                    e.err = ErrorCodes.UPDATE_PENALTYPAYMENT_BORROWERDETAILS_FAILED
+                                    e.err = ErrorCodes(603)
                                     raise e
                                 break
                             else:
                                 print("Set book penalty to 0")
                                 failed1=Mydb.adjustPenaltyInBorrowerDetails(c,borwid=key,penalty=val, new_penalty=0)
                                 if failed1:
-                                    e.err = ErrorCodes.UPDATE_PENALTYPAYMENT_BORROWERDETAILS_FAILED
+                                    e.err = ErrorCodes(603)
                                     raise e
                                 amount = -at
                                 continue
@@ -1545,7 +1448,7 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
                     
                     elif isinstance(err,CustomErrorAndLogWriting):
                         error_messages = {
-                        ErrorCodes.UPDATE_PENALTYPAYMENT_BORROWERDETAILS_FAILED: "Failed to pay and update penalty."
+                        ErrorCodes(603): "Failed to pay and update penalty."
                         }
                         if e.err in error_messages:
                             e.writeFailedOperation(emsg=error_messages[e.err])
@@ -1621,7 +1524,7 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
             if len(text) == 14:
                 res = Mydb.getLibcardHolderInfo(c,text)
                 if res is None:
-                    e.err = ErrorCodes.GET_LIBCARDHOLDERINFOBOOKISSUE_LIBCARDINFO_FAILED
+                    e.err = ErrorCodes(818)
                     raise e
                 if lineedit == 'libcardno_ln':
                     print(res)
@@ -1658,7 +1561,7 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
 
                     header,res = Mydb.getBorrowerInfo(c,self.libcardno_ln_2.text())#64354968968184
                     if header is None or res is None:
-                        e.err = ErrorCodes.GET_BORROWERBOOKRETURN_BORROWERDETAILS_FAILED
+                        e.err = ErrorCodes(819)
                         raise e
                     print(res)
                     if len(res) != 0:
@@ -1704,8 +1607,8 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
             
             elif isinstance(err,CustomErrorAndLogWriting):
                 error_messages = {
-                ErrorCodes.GET_LIBCARDHOLDERINFOBOOKISSUE_LIBCARDINFO_FAILED: "Failed to fetch Library card holder details for book issue.",
-                ErrorCodes.GET_BORROWERBOOKRETURN_BORROWERDETAILS_FAILED: "Failed to fetch borrower details for book return."
+                ErrorCodes(818): "Failed to fetch Library card holder details for book issue.",
+                ErrorCodes(819): "Failed to fetch borrower details for book return."
                 }
                 if e.err in error_messages:
                     e.writeFailedOperation(emsg=error_messages[e.err])
@@ -1740,7 +1643,7 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
                 header,res = Mydb.getBookInfo(c,self.bookisbn_ln1.text())
                 if res is None:
                     print("res is none")
-                    e.err = ErrorCodes.GET_BOOKINFOBOOKISSUE_BOOKDETAILS_FAILED
+                    e.err = ErrorCodes(817)
                     raise e
                 elif not res:
                     m.critical(self,"Error","cant find book need to be issue")
@@ -1781,7 +1684,7 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
             
             elif isinstance(err,CustomErrorAndLogWriting):
                 error_messages = {
-                ErrorCodes.GET_BOOKINFOBOOKISSUE_BOOKDETAILS_FAILED: "Failed to fetch book info while adding it in book issue table."
+                ErrorCodes(817): "Failed to fetch book info while adding it in book issue table."
                 }
                 if e.err in error_messages:
                     e.writeFailedOperation(emsg=error_messages[e.err])
@@ -1819,9 +1722,8 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
             if libcardno != "" and len(libcardno)==14 and (self.showissuedbooks_tableWidget.rowCount() >0):
                 res=Mydb.getLibcardid(c,libcardno)
                 if res is None:
-                    e.err = ErrorCodes.GET_LIBCARDID_USINGLIBCARDNO_FAILED
+                    e.err = ErrorCodes(804)
                     raise e
-                    log.Logs.writeFailedOperation("Failed to get libacard id using library card.")
                     
                 rowc=len(res)
                 #if library card no. is not in db
@@ -1833,33 +1735,29 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
                         libcard_id=int(rows[0])
                     borwid = Mydb.genid(c,"borwid","borrower_details")
                     if borwid is None:
-                        e.err = ErrorCodes.GENRATE_ID_BORROWERDETAILS_FAILED
+                        e.err = ErrorCodes(206)
                         raise e
-                        log.Logs.writeFailedOperation("Failed to generate borrower id.")
                     for isbn in issued_books_isbns:
                         res=Mydb.getBookid(c,isbn)
                         if res is None:
-                            e.err = ErrorCodes.GET_BOOKID_USINGISBN_WHENMANYISBN_FAILED
+                            e.err = ErrorCodes(806)
                             raise e
-                            log.Logs.writeFailedOperation("failed to fetch bookid using book isbn code.")
                         else:
                             for rows in res:
                                 bid=int(rows[0])
                             failed1=Mydb.insert_in_bookborrower(c,borwid,bid,libcard_id)
                             if failed1:
-                                e.err = ErrorCodes.INSERT_NEWBORROWER_BORROWERDETAILS_WHENMANYISBN_FAILED
+                                e.err = ErrorCodes(311)
                                 raise e
                             failed2= Mydb.updateCopiesInBookDetails(c,bid)
                             if failed2:
-                                e.err = ErrorCodes.UPDATE_COPIES_BOOKDETAILS_WHENMANYISBN_FAILED
+                                e.err = ErrorCodes(601)
                                 raise e
                             else:
                                 res = Mydb.getBookTitle_usingISBN(c,isbn)
                                 if res is None:
-                                    e.err = ErrorCodes.GET_BOOKTITLE_USINGISBN_WHENONEISBN_FAILED
+                                    e.err = ErrorCodes(807)
                                     raise e
-                                    log.Logs.writeFailedOperation("Failed to fetch booktitle using book isbn.")
-                                
                                 for rows in res:
                                     bookname=str(rows[0])
                                 issued_books_names.append(bookname)
@@ -1878,104 +1776,7 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
             else:
                 m.warning(self,"Failed","Please fill the input fields correctly")
             c.close();db.close()
-            
-            """if libcardno != "" and (all(ln.text() != "" for ln in self.dynamiclineedits) if not self.is_widget_in_layout(self.gridLayout_8,self.bookisbn_ln1) else self.bookisbn_ln1.text() != ""):
-                res=Mydb.getLibcardid(c,libcardno)
-                if res is None:
-                    e.err = ErrorCodes.GET_LIBCARDID_USINGLIBCARDNO_FAILED
-                    raise e
-                    log.Logs.writeFailedOperation("Failed to get libacard id using library card.")
-                rowc=len(res)
-                #if library card no. is not in db
-                if(rowc==0):
-                    m.critical(self,"error","This Library card no. is not valid")
-                    
-                else:
-                    for rows in res:
-                        libcard_id=int(rows[0])
-                    borwid = Mydb.genid(c,"borwid","borrower_details")
-                    if borwid is None:
-                        e.err = ErrorCodes.GENRATE_ID_BORROWERDETAILS_FAILED
-                        raise e
-                        log.Logs.writeFailedOperation("Failed to generate borrower id.")
-                    if  self.is_widget_in_layout(self.gridLayout_8,self.bookisbn_ln1):
-                        isbncode = self.bookisbn_ln1.text()
-                        res=Mydb.getBookid(c,isbncode)
-                        if res is None:
-                            e.err = ErrorCodes.GET_BOOKID_USINGISBN_WHENONEISBN_FAILED
-                            raise e
-                            log.Logs.writeFailedOperation("failed to fetch bookid using book isbn code.")
-                        else:
-                            for rows in res:
-                                bid=int(rows[0])
-                            failed1=Mydb.insert_in_bookborrower(c,borwid,bid,libcard_id)
-                            if failed1:
-                                e.err = ErrorCodes.INSERT_NEWBORROWER_BORROWERDETAILS_WHENONEISBN_FAILED
-                                raise e
-
-                            failed2= Mydb.updateCopiesInBookDetails(c,bid)
-                            if failed2:
-                                e.err = ErrorCodes.UPDATE_COPIES_BOOKDETAILS_WHENONEISBN_FAILED
-                                raise e
-                            
-                            else:
-                                db.commit()
-                                res = Mydb.getBookTitle_usingISBN(isbncode)
-                                if res is None:
-                                    e.err = ErrorCodes.GET_BOOKTITLE_USINGISBN_WHENONEISBN_FAILED
-                                    raise e
-                                    log.Logs.writeFailedOperation("Failed to fetch booktitle using book isbn.")
-                                
-                                for rows in res:
-                                    bookname=str(rows[0])
-                                m.information(self,"success","The books '{}' is checked out".format(str(bookname)))
-                                self.libcardno_ln.clear()
-                                self.numberofbooks_sb.setValue(1)
-                                self.bookisbn_ln1.clear()
-                        
-                    else:
-                        books = []
-                        for ln in self.dynamiclineedits:
-                            books.append(ln.text())
-                        for isbncode in books:
-                            res=Mydb.getBookid(c,isbncode)
-                            if res is None:
-                                e.err = ErrorCodes.GET_BOOKID_USINGISBN_WHENMANYISBN_FAILED
-                                raise e
-                                log.Logs.writeFailedOperation("failed to fetch book id using book isbn code.")
-                            
-                            for rows in res:
-                                bid=int(rows[0])
-                            failed1=Mydb.insert_in_bookborrower(c,borwid,bid,libcard_id)
-                            if failed1:
-                                e.err = ErrorCodes.INSERT_NEWBORROWER_BORROWERDETAILS_WHENMANYISBN_FAILED
-                                raise e
-                            failed2=Mydb.updateCopiesInBookDetails(c,bid)
-                            if failed2:
-                                e.err = ErrorCodes.UPDATE_COPIES_BOOKDETAILS_WHENMANYISBN_FAILED
-                                raise e
-                            
-                            res = Mydb.getBookTitle_usingISBN(c,isbncode)
-                            if res is None:
-                                e.err = ErrorCodes.GET_BOOKTITLE_USINGISBN_WHENMANYISBN_FAILED
-                                raise e
-                                log.Logs.writeFailedOperation("failed to fetch book title using book isbn.")
-                            
-                            for rows in res:
-                                bookname=str(rows[0])
-                            m.information(self,"success","The books '{}' is checked out".format(bookname))
-                        self.dynamiclineedits.clear()
-                        self.numberofbooks_sb.setValue(1)
-                        self.libcardno_ln.clear()
-                        for ln in self.dynamiclineedits:
-                            ln.clear()
-                        
-                self.showBorrowerPageFun(0)
-                self.showAllBooksPageFun("")
-            else:
-                m.warning(self,"Failed","Please fill the input fields correctly")
-            c.close();db.close()"""
-
+ 
         except (ValueError,AttributeError,mysql.connector.Error,Exception,CustomErrorAndLogWriting) as e:
             if isinstance(e,ValueError):
                 self.errors_names.append("value")
@@ -1989,16 +1790,12 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
 
             elif isinstance(e,CustomErrorAndLogWriting):
                 error_messages = {
-            ErrorCodes.GET_LIBCARDID_USINGLIBCARDNO_FAILED:"Failed to get libcard id using library card no. for book issue.",
-            ErrorCodes.GENRATE_ID_BORROWERDETAILS_FAILED:"Failed to generate borwid for adding new borrower.",
-            ErrorCodes.GET_BOOKID_USINGISBN_WHENONEISBN_FAILED:"Failed to get book id using isbn when one book is being issued",
-            ErrorCodes.INSERT_NEWBORROWER_BORROWERDETAILS_WHENONEISBN_FAILED:"Failed to insert new borrower in borrower details when one book is being issued.",
-            ErrorCodes.UPDATE_COPIES_BOOKDETAILS_WHENONEISBN_FAILED:"Failed to update copies in book details when one book is being issued.",
-            ErrorCodes.GET_BOOKTITLE_USINGISBN_WHENONEISBN_FAILED:"Failed to get book title using isbn code when one book is being issued.",
-            ErrorCodes.GET_BOOKID_USINGISBN_WHENMANYISBN_FAILED:"Failed to get book id using isbn when more than one book is being issued.",
-            ErrorCodes.INSERT_NEWBORROWER_BORROWERDETAILS_WHENMANYISBN_FAILED:"Failed to insert new borrower in borrower details when more than one book is being issued.",
-            ErrorCodes.UPDATE_COPIES_BOOKDETAILS_WHENMANYISBN_FAILED:"Failed to update copies in book details when more than one book is being issued.",
-            ErrorCodes.GET_BOOKTITLE_USINGISBN_WHENMANYISBN_FAILED:"Failed to get book title using isbn when more than one book is being issued."
+            ErrorCodes(804):"Failed to get libcard id using library card no. for book issue.",
+            ErrorCodes(206):"Failed to generate borwid for adding new borrower.",
+            ErrorCodes(807):"Failed to get book title using isbn code when one book is being issued.",
+            ErrorCodes(806):"Failed to get book id using isbn when more than one book is being issued.",
+            ErrorCodes(311):"Failed to insert new borrower in borrower details when more than one book is being issued.",
+            ErrorCodes(601):"Failed to update copies in book details when more than one book is being issued.",
             }
                 if e.err in error_messages:
                         e.writeFailedOperation(emsg=error_messages[e.err])
@@ -2031,12 +1828,12 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
             self.showborrowerwithpenalty_tableWidget.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
             failed = Mydb.updatePenaltyInBorrowerDetails(c)
             if failed:
-                e.err = ErrorCodes.UPDATE_PENALTY_BORROWERDETAILS_FAILED
+                e.err = ErrorCodes(602)
                 raise e
             db.commit()
             header,result = Mydb.showPenaltyBorrowers(c)
             if header is None or result is None:
-                e.err = ErrorCodes.SHOW_BORROWERSWITHPENALTY_BORROWERSDETAILS_FAILED
+                e.err = ErrorCodes(503)
                 raise e
                 
             if len(result) != 0:
@@ -2063,8 +1860,8 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
             
             elif isinstance(e,CustomErrorAndLogWriting):
                 error_messages = {
-            ErrorCodes.UPDATE_PENALTY_BORROWERDETAILS_FAILED:"Failed to update penalty of borrowers in borrower details.",
-            ErrorCodes.SHOW_BORROWERSWITHPENALTY_BORROWERSDETAILS_FAILED:"Failed to fetch information about borrowers who has penalty."
+            ErrorCodes(602):"Failed to update penalty of borrowers in borrower details.",
+            ErrorCodes(503):"Failed to fetch information about borrowers who has penalty."
             }
                 if e.err in error_messages:
                     e.writeFailedOperation(emsg=error_messages[e.err])
@@ -2089,8 +1886,6 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
             e = CustomErrorAndLogWriting()
             libcardno = self.libcardno_ln_2.text()
             booktitle = ''
-            
-            #if libcardno != "" and (all(ln.text() != "" for ln in self.dynamiclineedits2) if not self.is_widget_in_layout(self.gridLayout_9, self.bookisbn_return_ln) else self.bookisbn_return_ln.text() != ""):
             if libcardno != "":
                 for item in self.returnbooks:
                     state = item.checkState()
@@ -2103,18 +1898,17 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
 
                         failed1=Mydb.updateReturnedBookInBookBorrower(c,borwid,bid)
                         if failed1:
-                            e.err = ErrorCodes.UPDATE_MANYRETURNBOOK_BORROWERDETAILS_FAILED
+                            e.err = ErrorCodes(606)
                             raise e
                         failed2=Mydb.updateReturnedCopiesInBookDetails(c,bid)
                         if failed2:
-                            e.err = ErrorCodes.UPDATE_COPIES_BOOKDETAILS_WHENRETURNMANY_FAILED
+                            e.err = ErrorCodes(607)
                             raise e
 
                         res = Mydb.getBookTitle(c,bid)
                         if res is None:
-                            e.err = ErrorCodes.GET_BOOKTITLE_USINGBID_TORETURNBOOK_FAILED
+                            e.err = ErrorCodes(812)
                             raise e
-                            log.Logs.writeFailedOperation("Failed to get book title using book id for book return")
                         else:
                             for row in res:
                                 booktitle = booktitle + str(row[0]) +'\n'
@@ -2124,88 +1918,6 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
                 self.showBorrowerPageFun(0)
                 self.showAllBooksPageFun("")
                 db.commit()    
-                """res=Mydb.getLibcardid(c,libcardno)
-                if res is None:
-                    e.err = ErrorCodes.GET_LIBCARDID_USINGLIBCARDNO_FORRETURNBOOK_FAILED
-                    raise e
-                else:
-                    for row in res:
-                        libcard_id=int(row[0])
-                res=Mydb.getborwid(c,libcard_id)
-                if res is None:
-                    e.err = ErrorCodes.GET_BORROWERID_USINGLIBCARDID_FORRETURNBOOK_FAILED
-                    raise e
-                    log.Logs.writeFailedOperation("Failed to get borrower id who did not returned the book using libcard id")
-                else:
-                    for row in res:
-                        borwid=int(row[0])
-                if  self.is_widget_in_layout(self.gridLayout_9,self.bookisbn_return_ln):
-                        isbncode = self.bookisbn_return_ln.text()
-                        res=Mydb.getBookid(c,isbncode)
-                        if res is None:
-                            e.err = ErrorCodes.GET_BOOKID_USINGISBN_TORETURNBOOK_FAILED
-                            raise e
-                            log.Logs.writeFailedOperation("Failed to get book id using isbn code.")
-                        else:
-                            for rows in res:
-                                bid=int(rows[0])
-                        failed1=Mydb.updateReturnedBookInBookBorrower(c,borwid,bid)
-                        if failed1:
-                            e.err = ErrorCodes.UPDATE_RETURNBOOK_BORROWERDETAILS_FAILED
-                            raise e
-                        failed2=Mydb.updateReturnedCopiesInBookDetails(c,bid)
-                        if failed2:
-                            e.err = ErrorCodes.UPDATE_COPIES_BOOKDETAILS_WHENRETURN_FAILED
-                            raise e
-
-                        res = Mydb.getBookTitle(c,bid)
-                        if res is None:
-                            e.err = ErrorCodes.GET_BOOKTITLE_USINGBID_TORETURNBOOK_FAILED
-                            raise e
-                            log.Logs.writeFailedOperation("Failed to get book title using book id for book return")
-                        else:
-                            for row in res:
-                                booktitle = str(row[0])
-                            m.information(self,"success","The book: '{}' is returned successfully!!".format(str(booktitle)))
-                        self.libcardno_ln_2.clear()
-                        self.bookisbn_return_ln.clear()
-                else:
-                    books = []
-                    for ln in self.dynamiclineedits2:
-                            books.append(ln.text())
-                    for isbncode in books:
-                            res= Mydb.getBookid(c,isbncode)
-                            if res is None:
-                                e.err = ErrorCodes.GET_BOOKID_USINGISBN_TORETURNMANYBOOK_FAILED
-                                raise e
-                                log.Logs.writeFailedOperation("Failed to get book id using isbncode.")
-                            else:
-                                for rows in res:
-                                    bid=int(rows[0])
-                            failed1=Mydb.updateReturnedBookInBookBorrower(c,borwid,bid)
-                            if failed1:
-                                e.err = ErrorCodes.UPDATE_MANYRETURNBOOK_BORROWERDETAILS_FAILED
-                                raise e
-                            failed2=Mydb.updateReturnedCopiesInBookDetails(c,bid)
-                            if failed2:
-                                e.err = ErrorCodes.UPDATE_COPIES_BOOKDETAILS_WHENRETURNMANY_FAILED
-                                raise e
-                            
-                            res = Mydb.getBookTitle(c,bid)
-                            if res is None:
-                                e.err = ErrorCodes.GET_BOOKTITLE_USINGBID_TORETURNMANYBOOK_FAILED
-                                raise e
-                                log.Logs.writeFailedOperation("Failed to get book title using book id")
-                            
-                            for row in res:
-                                booktitle = str(row[0])
-                            m.information(self,"success","The book: '{}' is returned successfully!!".format(str(booktitle)))
-                    for ln in self.dynamiclineedits2:
-                        ln.clear()
-                    self.libcardno_ln_2.clear()
-                self.showBorrowerPageFun(0)
-                self.showAllBooksPageFun("")
-                db.commit()"""
             else :
                 m.warning(self,"Failed","Please fill the input fields correctly")
             c.close();db.close()
@@ -2224,18 +1936,10 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
                 self.e_msg = self.e_msg + traceback.format_exc()
             elif isinstance(e,CustomErrorAndLogWriting):
                 error_messages = {
-            ErrorCodes.UPDATE_PENALTY_BORROWERDETAILS_FAILED:"Failed to update penalty of borrowers in borrower details.",
-            ErrorCodes.GET_LIBCARDID_USINGLIBCARDNO_FORRETURNBOOK_FAILED:"Failed to get libcard id using libcardno for returning book.",
-            ErrorCodes.GET_BORROWERID_USINGLIBCARDID_FORRETURNBOOK_FAILED:"Failed to get borrower id using libcard id for returning book.",
-            ErrorCodes.GET_BOOKID_USINGISBN_TORETURNBOOK_FAILED:"Failed to get bookid using isbn to return book.",
-            ErrorCodes.UPDATE_RETURNBOOK_BORROWERDETAILS_FAILED:"Failed to update borrower details when book is returned.",
-            ErrorCodes.UPDATE_COPIES_BOOKDETAILS_WHENRETURN_FAILED:"Failed to update copies of book when book is returned.",
-            ErrorCodes.GET_BOOKTITLE_USINGBID_TORETURNBOOK_FAILED:"Failed to get book title using book id to return book.",
+            ErrorCodes(812):"Failed to get book title using book id to return book.",
             ErrorCodes.GET_BOOKID_USINGISBN_TORETURNMANYBOOK_FAILED:"Failed to get book id using isbn to return many books.",
-            ErrorCodes.UPDATE_MANYRETURNBOOK_BORROWERDETAILS_FAILED:"Failed to update borrower details when many books are returned.",
-            ErrorCodes.UPDATE_COPIES_BOOKDETAILS_WHENRETURNMANY_FAILED:"Failed to update copies of books when many books are returned.",
-            ErrorCodes.GET_BOOKTITLE_USINGBID_TORETURNMANYBOOK_FAILED:"Failed to get book title using book id when many books are returned."
-            
+            ErrorCodes(606):"Failed to update borrower details when many books are returned.",
+            ErrorCodes(607):"Failed to update copies of books when many books are returned.",
             }
                 if e.err in error_messages:
                     e.writeFailedOperation(emsg=error_messages[e.err])
@@ -2265,7 +1969,7 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
             self.showusers_tableWidget.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
             header,result = Mydb.showAllRegisteredUsers(c)
             if header is None or result  is None:
-                e.err = ErrorCodes.SHOW_ALLUSERS_PASSINFO_FAILED
+                e.err = ErrorCodes(504)
                 raise e
                 
             self.showusers_tableWidget.setColumnCount(len(result[0])+1)
@@ -2293,7 +1997,7 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
                 self.e_msg = self.e_msg + traceback.format_exc()
             elif isinstance(e,CustomErrorAndLogWriting):
                 error_messages = {
-            ErrorCodes.SHOW_ALLUSERS_PASSINFO_FAILED:"Failed to fetch information about all registered user in passwordinfo."
+            ErrorCodes(504):"Failed to fetch information about all registered user in passwordinfo."
             }
                 if e.err in error_messages:
                     e.writeFailedOperation(emsg=error_messages[e.err])
@@ -2343,7 +2047,7 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
                 res = Mydb.deleteUsersFromPasswordinfo(c,uid=id)
 
             if res is None:
-                e.err = ErrorCodes.DELETE_USER_PASSINFO_FAILED
+                e.err = ErrorCodes(700)
                 raise e
             ids.clear()
             db.commit()
@@ -2361,7 +2065,7 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
                 self.e_msg = self.e_msg + traceback.format_exc()
             elif isinstance(e,CustomErrorAndLogWriting):
                 error_messages = {
-            ErrorCodes.DELETE_USER_PASSINFO_FAILED:"Failed to delete user from passwordinfo."
+            ErrorCodes(700):"Failed to delete user from passwordinfo."
             }
                 if e.err in error_messages:
                     e.writeFailedOperation(emsg=error_messages[e.err])
@@ -2389,7 +2093,7 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
             for id in ids:
                failed = Mydb.updateRoletoAdmin(c,uid=id)
             if failed:
-                e.err = ErrorCodes.UPDATE_ROLETOADMIN_PASSINFO_FAILED
+                e.err = ErrorCodes(608)
                 raise e
             ids.clear()
             db.commit()
@@ -2407,7 +2111,7 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
                 self.e_msg = self.e_msg + traceback.format_exc()
             elif isinstance(e,CustomErrorAndLogWriting):
                 error_messages = {
-            ErrorCodes.UPDATE_ROLETOADMIN_PASSINFO_FAILED:"Failed to update user role to admin in passwordinfo."
+            ErrorCodes(608):"Failed to update user role to admin in passwordinfo."
             }
                 if e.err in error_messages:
                     e.writeFailedOperation(emsg=error_messages[e.err])
@@ -2435,7 +2139,7 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
             for id in ids:
                 failed = Mydb.updateRoletolibrarian(c,uid=id)
             if failed:
-                e.err = ErrorCodes.UPDATE_ROLETOLIBRARIAN_PASSINFO_FAILED
+                e.err = ErrorCodes(609)
                 raise e
             ids.clear()
             db.commit()
@@ -2453,7 +2157,7 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
                 self.e_msg = self.e_msg + traceback.format_exc()
             elif isinstance(e,CustomErrorAndLogWriting):
                 error_messages = {
-            ErrorCodes.UPDATE_ROLETOLIBRARIAN_PASSINFO_FAILED:"Failed to update user role to librarian in passwordinfo."
+            ErrorCodes(609):"Failed to update user role to librarian in passwordinfo."
             }
                 if e.err in error_messages:
                     e.writeFailedOperation(emsg=error_messages[e.err])
@@ -2499,7 +2203,7 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
                 header,res = Mydb.searchBooks(c,search_item)
 
                 if res is None or header is None:
-                    e.err = ErrorCodes.SHOW_ALLBOOKDETAILS_TOCHANGE_FAILED
+                    e.err = ErrorCodes(505)
                     raise e
                 if len(res) == 0:
                     self.showusers_tableWidget.clear()
@@ -2529,7 +2233,7 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
                     self.e_msg = self.e_msg + traceback.format_exc()
                 elif isinstance(e,CustomErrorAndLogWriting):
                     error_messages = {
-                ErrorCodes.SHOW_ALLBOOKDETAILS_TOCHANGE_FAILED:"Failed to fetch all books details to make changes in book details for admin."
+                ErrorCodes(505):"Failed to fetch all books details to make changes in book details for admin."
                 }
                     if e.err in error_messages:
                         e.writeFailedOperation(emsg=error_messages[e.err])
@@ -2694,13 +2398,13 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
                 id = self.bookmanagement_tableWidget.item(item.row(), 0).text()
                 failed = Mydb.updateISBN(c,id,text)
                 if failed:
-                    e.err = ErrorCodes.UPDATE_ISBN_BOOKDETAILS_FAILED
+                    e.err = ErrorCodes(610)
                     raise e
                     
                 header,res = Mydb.searchBooks(c,
                 self.booksearch_ln.text())
                 if header is  None or res is None:
-                    e.err = ErrorCodes.SHOW_ALLBOOKDETAILS_TOCHANGEISBN_FAILED
+                    e.err = ErrorCodes(506)
                     raise e
                     
                 self.showBookmanagementFun(header,res)
@@ -2711,12 +2415,12 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
                 id = self.bookmanagement_tableWidget.item(item.row(), 0).text()
                 failed = Mydb.updateBookTitle(c,id,text)
                 if failed:
-                    e.err = ErrorCodes.UPDATE_BOOKTITLE_BOOKDETAILS_FAILED
+                    e.err = ErrorCodes(611)
                     raise e
                     
                 header,res = Mydb.searchBooks(c,self.booksearch_ln.text())
                 if header is  None or res is None:
-                    e.err = ErrorCodes.SHOW_ALLBOOKDETAILS_TOCHANGEBOOKTITLE_FAILED
+                    e.err = ErrorCodes(507)
                     raise e
                     
                 self.showBookmanagementFun(header,res)
@@ -2726,12 +2430,12 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
                 id = self.bookmanagement_tableWidget.item(item.row(), 0).text()
                 failed = Mydb.updateNoOfCopies(c,id,text)
                 if failed:
-                    e.err = ErrorCodes.UPDATE_COPIES_BOOKDETAILS_FAILED
+                    e.err = ErrorCodes(612)
                     raise e
                     
                 header,res = Mydb.searchBooks(c,self.booksearch_ln.text())
                 if header is  None or res is None:
-                    e.err = ErrorCodes.SHOW_ALLBOOKDETAILS_TOCHANGECOPIES_FAILED
+                    e.err = ErrorCodes(508)
                     raise e
                     
                 self.showBookmanagementFun(header,res)
@@ -2741,12 +2445,12 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
                 id = self.bookmanagement_tableWidget.item(item.row(), 1).text()
                 failed = Mydb.updateAuthorName(c,id,text)
                 if failed:
-                    e.err = ErrorCodes.UPDATE_AUTHORNAME_BOOKDETAILS_FAILED
+                    e.err = ErrorCodes(613)
                     raise e
                     
                 header,res = Mydb.searchBooks(c,self.booksearch_ln.text())
                 if header is  None or res is None:
-                    e.err = ErrorCodes.SHOW_ALLBOOKDETAILS_TOCHANGEAUTHOR_FAILED
+                    e.err = ErrorCodes(509)
                     raise e
                 self.showBookmanagementFun(header,res)
                 self.editAuthorName()
@@ -2764,14 +2468,14 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
                 self.e_msg = self.e_msg + traceback.format_exc()
             elif isinstance(e,CustomErrorAndLogWriting):
                     error_messages = {
-                ErrorCodes.UPDATE_ISBN_BOOKDETAILS_FAILED:"Failed to update book isbn.",
-                ErrorCodes.SHOW_ALLBOOKDETAILS_TOCHANGEISBN_FAILED:"Failed to fetch information about books to change isbn.",
-                ErrorCodes.UPDATE_BOOKTITLE_BOOKDETAILS_FAILED:"Failed to update book title",
-                ErrorCodes.SHOW_ALLBOOKDETAILS_TOCHANGEBOOKTITLE_FAILED:"Failed to fetch information about books to change booktitle.",
-                ErrorCodes.UPDATE_COPIES_BOOKDETAILS_FAILED:"Failed to update book copies.",
-                ErrorCodes.SHOW_ALLBOOKDETAILS_TOCHANGECOPIES_FAILED:"Failed to fetch information about books to change no. of copies.",
-                ErrorCodes.UPDATE_AUTHORNAME_BOOKDETAILS_FAILED:"Failed to update book's author name.",
-                ErrorCodes.SHOW_ALLBOOKDETAILS_TOCHANGEAUTHOR_FAILED:"Failed to fetch information about books to change author name."
+                ErrorCodes(610):"Failed to update book isbn.",
+                ErrorCodes(506):"Failed to fetch information about books to change isbn.",
+                ErrorCodes(611):"Failed to update book title",
+                ErrorCodes(507):"Failed to fetch information about books to change booktitle.",
+                ErrorCodes(612):"Failed to update book copies.",
+                ErrorCodes(508):"Failed to fetch information about books to change no. of copies.",
+                ErrorCodes(613):"Failed to update book's author name.",
+                ErrorCodes(509):"Failed to fetch information about books to change author name."
                 }
                     if e.err in error_messages:
                         print(traceback.format_exc())
@@ -2823,6 +2527,7 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
         self.showBookmanagementFun(header=header, result=res)
     def showManageLinkedDevicePage(self):
         self.stackedWidget.setCurrentIndex(13)
+        ErrorCodes(100)
     
 
 if __name__ == "__main__":

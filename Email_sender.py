@@ -1,6 +1,6 @@
 import os
 import smtplib
-import traceback
+import traceback            
 from dotenv import load_dotenv
 from db import Dbconnection
 from log import CustomErrorAndLogWriting , ErrorCodes
@@ -40,7 +40,7 @@ class EmailSender():
             self.reciever_info = Mydb.getEmailReceiverData(c)
 
             if self.reciever_info is None:
-                err.err = ErrorCodes.GET_RECIEVERDATA_PENALTYBORROWERS_FAILED
+                err.err = ErrorCodes(815)
                 raise err
             
             for row in self.reciever_info:
@@ -52,7 +52,7 @@ class EmailSender():
                 self.reciever_books = Mydb.getReceiverBookTitles(c,row[2])
 
                 if self.reciever_books == None:
-                    err.err = ErrorCodes.GET_RECIEVERBOOKTITLES_PENALTYBORROWERS_FAILED
+                    err.err = ErrorCodes(816)
                     raise err
                 for row in self.reciever_books:
                     for book in row:
@@ -67,23 +67,23 @@ class EmailSender():
                 email_not_sent = Mydb.isEmailNotSent(c,userid)
                 print(email_not_sent)
                 if email_not_sent is None:
-                    err.err = ErrorCodes.ISEMAILNOTSENT_PENALTYBORROWERS_FAILED
+                    err.err = ErrorCodes(404)
                     raise err
                 if email_not_sent:
                     self.sendEmail(to,subject,content)
                     #update email sent date
                     failed = Mydb.updateLastEmailSentDate(c,userid)
                     if failed:
-                        err.err = ErrorCodes.UPDATE_LASTEMAILSENTDATE_PENALTYBORROWERS_FAILED
+                        err.err = ErrorCodes(614)
                         raise err
                     db.commit()
 
         except CustomErrorAndLogWriting as e:
             error_messages = {
-            ErrorCodes.GET_RECIEVERDATA_PENALTYBORROWERS_FAILED:"Failed to fetch reciever data to whom penalty msg should be send.",
-            ErrorCodes.GET_RECIEVERBOOKTITLES_PENALTYBORROWERS_FAILED:"Failed to fetch book titles needed for penatly msg to send it reciever.",
-            ErrorCodes.ISEMAILNOTSENT_PENALTYBORROWERS_FAILED:"Failed to find if email is sent already or not to the receiver.",
-            ErrorCodes.UPDATE_LASTEMAILSENTDATE_PENALTYBORROWERS_FAILED:"Failed to update the last date on which email was sent to receiver."
+            ErrorCodes(815):"Failed to fetch reciever data to whom penalty msg should be send.",
+            ErrorCodes(816):"Failed to fetch book titles needed for penatly msg to send it reciever.",
+            ErrorCodes(404):"Failed to find if email is sent already or not to the receiver.",
+            ErrorCodes(614):"Failed to update the last date on which email was sent to receiver."
             }
             if e.err in error_messages:
                 e.writeFailedOperation(emsg=error_messages[e.err])
