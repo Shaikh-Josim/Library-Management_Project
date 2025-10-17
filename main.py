@@ -1349,6 +1349,7 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
             pass
 
     def payPenalty(self,dataset):
+        #going to pay 
         class PenaltyWindow(QtWidgets.QWidget):
             success = pyqtSignal(object)
             def __init__(self, parent:QtWidgets.QWidget=None, dataset=None,borwid_penalties = None):
@@ -1416,7 +1417,7 @@ class MyApp(QtWidgets.QMainWindow, ui.Ui_MainWindow):
                             at = int(self.borwids_penalties[key]) - amount
                             if at >= 0:
                                 print("set penalty to: ",at)
-                                failed1=Mydb.updatePenaltyInBorrowerDetails(c,borwid=key,penalty=val, new_penalty=at)
+                                failed1=Mydb.adjustPenaltyInBorrowerDetails(c,borwid=key,penalty=val, new_penalty=at)
                                 if failed1:
                                     e.err = ErrorCodes(603)
                                     raise e

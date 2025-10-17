@@ -64,7 +64,7 @@ class Dbconnection():#QMessageBox
                 host="localhost",
                 user="root",
                 password="",
-                database="library_management_DBtry"
+                database="library_management"
                 )
                 self.c=self.mydb.cursor()
                 return self.c, self.mydb
