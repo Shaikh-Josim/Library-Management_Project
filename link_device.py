@@ -1,13 +1,10 @@
 import json, platform, socket
 import qrcode
 import traceback
-
 from PyQt6.QtCore import QObject, pyqtSignal, pyqtSlot
 from PyQt6.QtWebSockets import QWebSocketServer
 from PyQt6.QtNetwork import QHostAddress
 from PyQt6.QtWidgets import QApplication
-
-
 
 class WebSocketServer(QObject):
     message_received = pyqtSignal(str)  # Signal to emit received messages
@@ -35,9 +32,6 @@ class WebSocketServer(QObject):
         if self.server.listen(QHostAddress(self.IPAddress), self.Port):
             print(f"Server listening on ws://{self.IPAddress}:{self.Port}")
             self.server.newConnection.connect(self.on_new_connection)
-        else:
-            print("Failed to start server")
-
         
     def getIPAddressAndPort(self):
         hostname = socket.gethostname()
@@ -55,7 +49,6 @@ class WebSocketServer(QObject):
         img = img.resize((236,236))
         img.save('Appdata/qrcode.png')
         return 'Appdata/qrcode.png'
-
         
     @pyqtSlot()
     def on_new_connection(self):
@@ -66,7 +59,6 @@ class WebSocketServer(QObject):
         socket.disconnected.connect(self.handle_disconnect)
 
         self.clients.append(socket)
-        print("Client connected.")
 
     @pyqtSlot(str)
     def handle_text_message(self, message):
@@ -76,24 +68,14 @@ class WebSocketServer(QObject):
     def sendMsg(self,msg):
         socket = next(iter(self.clients))
         socket.sendTextMessage(json.dumps(msg))
-        print(msg," in ws logic")
 
     def closeServer(self):
         if self.server and self.server.isListening():
-            print("Stopping new connections...")
             self.server.pauseAccepting()  # Prevent new connections
-
-            print("Closing active sockets...")
             for socket in self.clients:  # Assuming you track them in a list
                 socket.close()  # Sends close frame and disconnects
                 socket.deleteLater()  # Safe cleanup
-
-            print("Shutting down server...")
             self.server.close()
-            print("WebSocket server closed successfully.")
-
-
-            
 
     @pyqtSlot()
     def handle_disconnect(self):
@@ -102,9 +84,6 @@ class WebSocketServer(QObject):
             self.clients.remove(socket)
         socket.deleteLater()
         self.client_disconnected.emit(True)
-        print("Client disconnected.")
-
-
 
 if __name__ == "__main__":
     try:

@@ -1,5 +1,5 @@
 import os
-import smtplib
+import smtplib, socket
 import traceback            
 from dotenv import load_dotenv
 from db import Dbconnection
@@ -12,8 +12,39 @@ class EmailSender():
         load_dotenv()
         self.sender_email = os.getenv('EMAIL')
         self.password = os.getenv('PASS')
-        
+
+
+    def isInetConnection(self,host="8.8.8.8", port=53, timeout=3):
+        """
+        Check if internet connection is available for sending emails
+
+        Parameters:
+            host(str):  ip address of DNS server
+            port(int):  port number
+            timeout(int):   timeout value
+
+        Returns
+            bool: True if available else false.
+        """
+        try:
+            socket.setdefaulttimeout(timeout)
+            socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect((host,port))
+            return True
+        except socket.error:
+            return False
+   
     def sendEmail(self,to,subject,content):
+        """
+        Sends email to reciever using gmail.
+
+        Parameters:
+            to(str):  receiver email address.
+            subject(int):  subject of email.
+            content(str):   content of email.
+
+        Returns
+            bool: True if available else false.
+        """
         try:
             
             self.msg = EmailMessage()
@@ -21,18 +52,20 @@ class EmailSender():
             self.msg['Subject'] = subject
             self.msg['To'] = to
             self.msg.set_content(content)
-            self.msg.add_header('List-Unsubscribe', '<mailto:codevortex124@gmail.com>')
+            self.msg.add_header('List-Unsubscribe', f'<mailto:{self.sender_email}>')
             with smtplib.SMTP("smtp.gmail.com", 587) as server:
                 server.starttls()  # Start TLS encryption
                 server.login(self.sender_email, self.password)  # Log in to the server
                 server.send_message(self.msg)  # Send the email
         except Exception as e:
             CustomErrorAndLogWriting().writeSingleErrorInLog(traceback.format_exc())
-            
-        
 
     def checkAndSendEmail(self):
-        # Recipent name,email, borrowed date, books title, penalty 
+        """
+        Find and Sends email to all reciever who has penalty.
+        
+        This function does not take any parameter and does not return any value.
+        """
         try:
             Mydb = Dbconnection()
             c,db = Mydb.makeConnection()
@@ -58,7 +91,7 @@ class EmailSender():
                     for book in row:
                         reciever_books += str(book) + "\n"
 
-                content = self.emailPenaltyContent(name,userid,date,
+                content = self.emailPenaltyContent(name,date,
                 penalty,reciever_books)
                 subject = "reminder: book penalty due- action required"
                 to = userid
@@ -92,7 +125,19 @@ class EmailSender():
         except Exception as e:
             CustomErrorAndLogWriting().writeSingleErrorInLog(traceback.format_exc())
     
-    def emailPenaltyContent(self,name,userid,date,penalty,reciever_books):
+    def emailPenaltyContent(self,name,date,penalty,reciever_books):
+        """
+        Returns content of email for borrowers who has penalty on them.
+
+        Parameters:
+            name(str):  name of borrower.
+            date(int):  date on which book was borrowed.
+            penalty(str):   penalty on borrower.
+            reciever_books(str): names of book borrowed by borrower which has penalty.
+
+        Returns
+            content(str): content of email for borrowers who has penalty.
+        """
         books = reciever_books
         
         content = f"""\

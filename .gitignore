@@ -3,3 +3,5 @@
 .venv/
 __pycache__/
 Error_logs.txt
+file.cpp.py
+Appdata/qrcode.png

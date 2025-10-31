@@ -7,7 +7,7 @@
 
 import platform
 from PyQt6 import QtCore, QtGui, QtWidgets
-from PyQt6.QtWidgets import QScrollArea, QLayout
+from PyQt6.QtWidgets import QScrollArea
 from PyQt6.QtCore import Qt
 
 class FocusSignalLineEdit(QtWidgets.QLineEdit):
@@ -23,7 +23,16 @@ class FocusSignalLineEdit(QtWidgets.QLineEdit):
 
     def focusOutEvent(self, event):
         self._has_emitted_focus = False  # Reset flag
-        super().focusOutEvent(event)        
+        super().focusOutEvent(event)     
+
+    def setText(self, text):
+        validator = self.validator()
+        if validator is not None:
+            state, _, _ = validator.validate(text, 0)
+            if state == validator.State.Acceptable:
+                super().setText(text)
+        else:
+            super().setText(text)   
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -994,19 +1003,6 @@ class Ui_MainWindow(object):
         self.authoname_ln = QtWidgets.QLineEdit(parent=self.addnewbook_page)
         self.authoname_ln.setObjectName("authoname_ln")
         self.gridLayout_7.addWidget(self.authoname_ln, 4, 1, 1, 1)
-        """self.categories_ln = QtWidgets.QLineEdit(parent=self.addnewbook_page)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.categories_ln.sizePolicy().hasHeightForWidth())
-        self.categories_ln.setSizePolicy(sizePolicy)
-        self.categories_ln.setMinimumSize(QtCore.QSize(380, 0))
-        self.categories_ln.setTabletTracking(True)
-        self.categories_ln.setStatusTip("")
-        self.categories_ln.setWhatsThis("")
-        self.categories_ln.setObjectName("categories_ln")
-        self.gridLayout_7.addWidget(self.categories_ln, 5, 1, 1, 1)"""
-
         self.group_box = QtWidgets.QGroupBox("Add new category")
         self.addcat_button = QtWidgets.QPushButton("")
         self.addcat_button.setFixedSize(26,26)
@@ -1015,13 +1011,12 @@ class Ui_MainWindow(object):
         icon13.addPixmap(QtGui.QPixmap(r"Appdata/images/add_photo_icon.jpg"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.addcat_button.setIcon(icon13)
         self.newcat_lineedit = QtWidgets.QLineEdit(parent=self.addnewbook_page)
-        self.newcat_lineedit.setObjectName("addnewcategory_lineedit")
+        self.newcat_lineedit.setObjectName("newcat_lineedit")
         self.newcat_lineedit.setPlaceholderText("Add new category...")
         self.newcat_lineedit.setStatusTip("write new category if its not in given option")
         group_layout = QtWidgets.QHBoxLayout()
         group_layout.addWidget(self.newcat_lineedit)
         group_layout.addWidget(self.addcat_button)
-        #group_layout.setAlignment()
         self.group_box.setLayout(group_layout)
         self.gridLayout_7.addWidget(self.group_box,5,1,1,1,QtCore.Qt.AlignmentFlag.AlignRight)
 
@@ -1038,15 +1033,12 @@ class Ui_MainWindow(object):
         self.todo_lb_3.setObjectName("todo_lb_3")
         self.todo_lb_3.setScaledContents(True)
         self.gridLayout_7.addWidget(self.todo_lb_3, 0, 0, 1, 1)
-        #self.stackedWidget.addWidget(self.addnewbook_page)
         self.chbox_layout = QtWidgets.QBoxLayout(QtWidgets.QBoxLayout.Direction.TopToBottom)
         self.gridLayout_7.addLayout(self.chbox_layout,6,1,1,1)
         self.addnewbook_page.setLayout(self.gridLayout_7)
-        #self.chbox_layout.setSizeConstraint(QtWidgets.QLayout.SizeConstraint.SetFixedSize)
         self.sa_addnewbook_page = QtWidgets.QScrollArea()
         self.sa_addnewbook_page.setWidgetResizable(True)
         self.sa_addnewbook_page.setWidget(self.addnewbook_page)
-        #self.sa_sidewidget.setMinimumSize(QtCore.QSize(137, 380))
         self.sa_addnewbook_page.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
         self.sa_addnewbook_page.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
         self.stackedWidget.addWidget(self.sa_addnewbook_page)
@@ -1056,7 +1048,6 @@ class Ui_MainWindow(object):
         #show book issue page
         self.bookissue_page = QtWidgets.QWidget()
         self.bookissue_page.setObjectName("bookissue_page")
-        #self.gridLayout_8 = QtWidgets.QGridLayout(self.bookissue_page)
         self.gridLayout_8 = QtWidgets.QGridLayout()
         self.gridLayout_8.setContentsMargins(22, -1, -1, -1)
         self.gridLayout_8.setHorizontalSpacing(17)
@@ -1106,21 +1097,6 @@ class Ui_MainWindow(object):
         self.scan_n_fetch_btn1.setSizePolicy(sizePolicy)
         self.scan_n_fetch_btn1.setMinimumSize(QtCore.QSize(0, 0))
         self.scan_n_fetch_btn1.setObjectName("scan_n_fetch_btn1")
-
-        """self.numberofbooks_lb = QtWidgets.QLabel(parent=self.bookissue_page)
-        self.numberofbooks_lb.setObjectName("numberofbooks_lb")
-        self.numberofbooks_sb = QtWidgets.QSpinBox(parent=self.bookissue_page)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.numberofbooks_sb.sizePolicy().hasHeightForWidth())
-        self.numberofbooks_sb.setSizePolicy(sizePolicy)
-        self.numberofbooks_sb.setMinimumSize(QtCore.QSize(401, 0))
-        self.numberofbooks_sb.setMinimum(1)
-        self.numberofbooks_sb.setMaximum(5)
-        self.numberofbooks_sb.setObjectName("numberofbooks_sb")
-        spacerItem16 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
-        spacerItem15 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)"""
         self.todo_lb = QtWidgets.QLabel(parent=self.bookissue_page)
         self.todo_lb.setObjectName("todo_lb")
         self.bookisbn_ln1 = FocusSignalLineEdit(parent=self.bookissue_page)
@@ -1165,21 +1141,6 @@ class Ui_MainWindow(object):
         self.gridLayout_8.addWidget(self.ok_btn_3, 4, 1, 1, 1)
         self.gridLayout_8.setHorizontalSpacing(4)
         self.gridLayout_8.setVerticalSpacing(0)
-
-        #self.stackedWidget.addWidget(self.bookissue_page)
-
-        #self.gridLayout_8.addWidget(self.Todo_lb, 1, 0, 1, 1)
-        #self.gridLayout_8.addWidget(self.libcardno_lb, 2, 0, 1, 1)
-        #self.gridLayout_8.addLayout(self.verticalLayout_device_libcard, 2, 1, 1, 1)
-        #self.gridLayout_8.addWidget(self.scan_n_fetch_btn1, 2,2,1,1)
-        #self.gridLayout_8.addWidget(self.numberofbooks_lb, 3, 0, 1, 1)
-        #self.gridLayout_8.addWidget(self.numberofbooks_sb, 3, 1, 1, 1)
-        #self.gridLayout_8.addItem(spacerItem16, 3, 2, 1, 1)
-        #self.gridLayout_8.addWidget(self.todo_lb, 4, 0, 1, 1)
-        #self.gridLayout_8.addWidget(self.bookisbn_ln1, 5, 1, 1, 1)
-        #self.gridLayout_8.addWidget(self.ok_btn_3, 6, 1, 1, 1)
-        #self.gridLayout_8.addItem(spacerItem15, 7, 0, 1, 1)
-
         self.horizontalLayout_bookissue = QtWidgets.QHBoxLayout(self.bookissue_page)
         self.verticalLayout_bookissue = QtWidgets.QVBoxLayout()
         self.verticalLayout_bookissue.setObjectName("verticalLayout_bookissue")
@@ -1224,7 +1185,7 @@ class Ui_MainWindow(object):
         self.photo_label_bookissue.setFixedSize(200,200)
         self.photo_label_bookissue.setScaledContents(True)
         self.verticalLayoutph_bookissue.addWidget(self.photo_label_bookissue)
-        #firstname , lastname, gender,mobile,libcardno,userid,address
+
 
         self.name_label_bookissue = QtWidgets.QLabel(parent=self.bookissue_page)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
@@ -1414,38 +1375,9 @@ class Ui_MainWindow(object):
         #show bookreturn page
         self.bookreturn_page = QtWidgets.QWidget()
         self.bookreturn_page.setObjectName("bookreturn_page")
-        #self.gridLayout_9 = QtWidgets.QGridLayout(self.bookreturn_page)
         self.gridLayout_9 = QtWidgets.QGridLayout()
         self.gridLayout_9.setSpacing(20)
         self.gridLayout_9.setObjectName("gridLayout_9")
-        
-        """self.libcardno_ln = FocusSignalLineEdit(parent=self.bookissue_page)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.libcardno_ln.sizePolicy().hasHeightForWidth())
-        self.libcardno_ln.setSizePolicy(sizePolicy)
-        self.libcardno_ln.setMinimumSize(QtCore.QSize(350, 0))
-        self.libcardno_ln.setObjectName("libcardno_ln")
-
-        
-        self.verticalLayout_device_libcard = QtWidgets.QVBoxLayout()
-        self.verticalLayout_device_libcard.addWidget(self.libcardno_ln)
-        self.verticalLayout_device_libcard.addLayout(self.scanneravailable_hl)
-        self.verticalLayout_device_libcard.setContentsMargins(0,28,0,0)
-        self.scan_n_fetch_btn1 = QtWidgets.QPushButton()
-        self.scan_n_fetch_btn1.setText("Scan&&Fetch")
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.scan_n_fetch_btn1.sizePolicy().hasHeightForWidth())
-        self.scan_n_fetch_btn1.setSizePolicy(sizePolicy)
-        self.scan_n_fetch_btn1.setMinimumSize(QtCore.QSize(0, 0))
-        self.scan_n_fetch_btn1.setObjectName("scan_n_fetch_btn1")
-        """
-        """
-        
-        """
         self.todo_lb_2 = QtWidgets.QLabel(parent=self.bookreturn_page)
         self.todo_lb_2.setObjectName("todo_lb_2")
         self.libcardno_lb_2 = QtWidgets.QLabel(parent=self.bookreturn_page)
@@ -1508,29 +1440,6 @@ class Ui_MainWindow(object):
         self.gridLayout_9.addWidget(self.isbnofbooks_lb, 2, 0, 1, 1)
         self.gridLayout_9.addWidget(self.paypenaltybtn, 2, 1, 1, 1)
         self.gridLayout_9.addWidget(self.pushButton_2, 2, 2, 1, 1)
-        
-        
-
-        #self.gridLayout_9.addWidget(self.libcardno_ln_2, 1, 1, 1, 1)
-        """
-        self.numberofbooks_sb_2 = QtWidgets.QSpinBox(parent=self.bookreturn_page)
-        self.numberofbooks_sb_2.setMinimumSize(QtCore.QSize(420, 0))
-        self.numberofbooks_sb_2.setMinimum(1)
-        self.numberofbooks_sb_2.setMaximum(10)
-        self.numberofbooks_sb_2.setObjectName("numberofbooks_sb_2")
-        self.gridLayout_9.addWidget(self.numberofbooks_sb_2, 2, 1, 1, 1)
-        self.bookisbn_return_ln = QtWidgets.QLineEdit(parent=self.bookreturn_page)
-        self.bookisbn_return_ln.setObjectName("bookisbn_return_ln")
-        self.gridLayout_9.addWidget(self.bookisbn_return_ln, 4, 1, 1, 1)
-        
-        spacerItem17 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
-        self.gridLayout_9.addItem(spacerItem17, 2, 2, 1, 1)
-        self.numberofbooks_lb_2 = QtWidgets.QLabel(parent=self.bookreturn_page)
-        self.numberofbooks_lb_2.setObjectName("numberofbooks_lb_2")
-        self.gridLayout_9.addWidget(self.numberofbooks_lb_2, 2, 0, 1, 1)
-        spacerItem18 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
-        self.gridLayout_9.addItem(spacerItem18, 8, 0, 1, 1)"""
-        #self.stackedWidget.addWidget(self.bookreturn_page)
         
         self.horizontalLayout_bookreturn = QtWidgets.QHBoxLayout(self.bookreturn_page)
         self.libcardno_tablewidget_bookreturn_vl = QtWidgets.QVBoxLayout()
@@ -1666,8 +1575,6 @@ class Ui_MainWindow(object):
         self.libcardholderinfo_bookreturn_vl = QtWidgets.QVBoxLayout()
         self.libcardholderinfo_bookreturn_vl.addWidget(self.libcardholderinfo_bookreturn_widget)
         self.gridLayout_bookreturn.setObjectName("gridLayout_bookreturn")
-        """book return libcardholder details"""
-
         self.horizontalLayout_bookreturn.addLayout(self.libcardno_tablewidget_bookreturn_vl)
         self.horizontalLayout_bookreturn.addLayout(self.libcardholderinfo_bookreturn_vl)
         self.horizontalLayout_bookreturn.addItem(spacerItem17)
@@ -1794,6 +1701,19 @@ class Ui_MainWindow(object):
         self.verticalLayout_serverinfo.addItem(spacerItem_serverinfo_vl)
         
         self.clientinfo_spacerItem_vl = QtWidgets.QVBoxLayout()
+
+        self.app_vl = QtWidgets.QVBoxLayout()
+        self.appd_lb = QtWidgets.QLabel(self.linked_device_management_page)
+        self.appd_lb.setObjectName("appd_lb")
+        self.appd_lb.setText("Download LMS-Scanner apk from here:")
+        #self.appd_lb.setWordWrap(True)
+        self.applink_lb = QtWidgets.QLabel('<a href="https://codevortex.dev">Visit CodeVortex</a>')
+        self.applink_lb.setOpenExternalLinks(False)  # We'll handle the click manually
+        self.applink_lb.setTextInteractionFlags(Qt.TextInteractionFlag.TextBrowserInteraction)
+        self.applink_lb.setStyleSheet("color: #007AFF;")
+        self.app_vl.addWidget(self.appd_lb)
+        self.app_vl.addWidget(self.applink_lb)
+
         self.client_lb = QtWidgets.QLabel(self.linked_device_management_page)
         self.client_lb.setObjectName("client_lb")
         self.client_lb.setText("Client Info:")
@@ -1808,6 +1728,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_clientinfo.addWidget(self.client_lb)
         self.verticalLayout_clientinfo.addWidget(self.client_info_lb)
         self.verticalLayout_clientinfo.setAlignment(QtCore.Qt.AlignmentFlag.AlignBottom)
+        self.clientinfo_spacerItem_vl.addLayout(self.app_vl)
         self.clientinfo_spacerItem_vl.addLayout(self.verticalLayout_clientinfo)
         self.clientinfo_spacerItem_vl.addItem(spacerItem_clientinfo_vl)
         
@@ -1885,7 +1806,6 @@ class Ui_MainWindow(object):
         self.copies_lb.setText(_translate("MainWindow", "No. of copies:"))
         self.isbn_lb.setText(_translate("MainWindow", "ISBN code:"))
         self.todo_lb_3.setText(_translate("MainWindow", "Fill the following details:"))
-        #self.numberofbooks_lb.setText(_translate("MainWindow", "Number of Books:"))
         self.Todo_lb.setText(_translate("MainWindow", "Fill the following details:"))
         self.libcardno_lb.setText(_translate("MainWindow", "Library card number:"))
         self.todo_lb.setText(_translate("MainWindow", "Enter ISBN Code:"))
@@ -1895,13 +1815,10 @@ class Ui_MainWindow(object):
         self.showbooks_lb.setText(_translate("MainWindow", "All books:"))
         self.libcardno_lb_2.setText(_translate("MainWindow", "Librarycard no:"))
         self.todo_lb_2.setText(_translate("MainWindow", "Fill the following details:"))
-        #self.numberofbooks_lb_2.setText(_translate("MainWindow", "Numbers of books to be returned:"))
         self.isbnofbooks_lb.setText(_translate("MainWindow", "Books Borrowed by the Borrower:"))
         self.pushButton_2.setText(_translate("MainWindow", "Return Book"))
         self.paypenaltybtn.setText(_translate("MainWindow", "Pay Penalty"))
         
-#682
-#733
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
@@ -1909,14 +1826,6 @@ if __name__ == "__main__":
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
-
-    categories = ['Science fiction', 'Adventure', 'Historical Fiction', 'Thriller', 'Mystery', 'Biography', 'Programming Languages', 'Computer Science', 'Horror', 'dfsf', 'x', 'fdv', 'new', 'Mythology', 'sdvaf', 'fwe', 'safa', 'Children', 'random', 'ds', 'dfe', 'dfsfs', 'po', 'dffs', 'dsf', 'op', 'dfdd', 'wef', 'nm', 'sfe', 'dfsw', 'dfadsa', 'fdd', 'ncrtygdf', 'opnew', 'sdfsfdfa']
-    
-        
-
-
     print(ui.stackedWidget.indexOf(ui.sa_bookissuepage))
     ui.stackedWidget.setCurrentIndex(10)
-    #ui.stackedWidget.setCurrentIndex(13)
-    #print(ui.stackedWidget.indexOf(ui.linked_device_management_page))
     sys.exit(app.exec())
