@@ -1707,7 +1707,7 @@ class Ui_MainWindow(object):
         self.appd_lb.setObjectName("appd_lb")
         self.appd_lb.setText("Download LMS-Scanner apk from here:")
         #self.appd_lb.setWordWrap(True)
-        self.applink_lb = QtWidgets.QLabel('<a href="https://codevortex.dev">Visit CodeVortex</a>')
+        self.applink_lb = QtWidgets.QLabel('<a href="https://github.com/Shaikh-Josim/LMS-Scanner/raw/refs/heads/main/output%20app/LMS%20Scanner.apk?download=">LMS Scanner</a>')
         self.applink_lb.setOpenExternalLinks(False)  # We'll handle the click manually
         self.applink_lb.setTextInteractionFlags(Qt.TextInteractionFlag.TextBrowserInteraction)
         self.applink_lb.setStyleSheet("color: #007AFF;")

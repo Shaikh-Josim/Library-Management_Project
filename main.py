@@ -159,6 +159,8 @@ class MyApp(QMainWindow, ui.Ui_MainWindow):
         self.is_device_linked = False
         self.db_connected = False 
         self.stackedWidget.setCurrentIndex(0)
+        self.login_btn.setEnabled(False)
+        self.create_acc_btn.setEnabled(False)
         self.sidemenu_btn.hide()
         self.sidemenu_btn.setCheckable(False)
         self.sidemenu_widget.hide();self.sa_sidewidget.hide()
