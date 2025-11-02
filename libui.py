@@ -1827,5 +1827,5 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     MainWindow.show()
     print(ui.stackedWidget.indexOf(ui.sa_bookissuepage))
-    ui.stackedWidget.setCurrentIndex(10)
+    ui.stackedWidget.setCurrentIndex(2)
     sys.exit(app.exec())

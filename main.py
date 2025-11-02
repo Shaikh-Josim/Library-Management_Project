@@ -12,7 +12,7 @@ import mysql.connector
 #Pyqt6 core
 from PyQt6.QtWidgets import QLabel, QLineEdit, QPushButton, QCheckBox, QBoxLayout, QVBoxLayout, QGridLayout, QTableWidgetItem, QSpacerItem, QAbstractItemView, QSizePolicy, QMessageBox, QFileDialog, QWidget, QMainWindow, QMenu, QApplication
 from PyQt6.QtCore import QSize, QRegularExpression, QTimer, Qt, QObject, QEvent, pyqtSlot
-from PyQt6.QtGui import QRegularExpressionValidator, QCloseEvent, QIcon, QPixmap, QPainter, QPainterPath, QAction
+from PyQt6.QtGui import QRegularExpressionValidator, QCloseEvent, QFont, QIcon, QPixmap, QPainter, QPainterPath, QAction
 
 # Local application imports
 import libui as ui
@@ -145,27 +145,23 @@ class MyApp(QMainWindow, ui.Ui_MainWindow):
     def __init__(self, ws_server:'WebSocketServer'):
         super().__init__()
         self.ws_server = ws_server
+        self.restart()
+      
+    def restart(self):
+        #things needed to do again if user login once again
         self.errors_names = []
         self.e_msg = ""
         self.LIBCARD_IMAGES_PATH = os.path.join("Appdata","LibrarycardImages")
         self.setWindowIcon(QIcon('Appdata/images/lib.ico'))
         self.setupUi(self)
-        self.restart()
         self.ws_server.message_received.connect(self.display_message)
         self.ws_server.client_disconnected.connect(self.clientDisconnected)
         self.is_device_linked = False
-        
-      
-    def restart(self):
-        #things needed to do again if user login once again
         self.db_connected = False 
         self.stackedWidget.setCurrentIndex(0)
         self.sidemenu_btn.hide()
         self.sidemenu_btn.setCheckable(False)
         self.sidemenu_widget.hide();self.sa_sidewidget.hide()
-        self.login_btn.setEnabled(False)
-        self.create_acc_btn.setEnabled(False)
-        self.back_btn2.setHidden(False)
         self.device_connected_lb.setPixmap(QPixmap(r"Appdata/images/scanner_available_false.png"))
         self.device_connected_lb2.setPixmap(QPixmap(r"Appdata/images/scanner_available_false.png"))
         self.is_device_linked = False
@@ -207,7 +203,174 @@ class MyApp(QMainWindow, ui.Ui_MainWindow):
         if em.isInetConnection():
             em.checkAndSendEmail()
             self.em_timer.stop()
+    
+    def showAddAdminWidget(self):
+        """
+        Function to add Admin. Typically when database does not has admin user.
+
+        This function does not take any parameter and does not return any value.
+        """
+        class AddAdminWindow(QWidget):
+            """
+            Make add admin related window.
             
+            Attributes:
+                p (MyApp) = parent widget in this case instance of MyApp class.
+
+            Methods:
+                setUi(): Sets the ui of add Admin Window.
+                addAdmin(): funtion to add Admin in database.
+                closeEvent(): implemention close event.
+            """
+            def __init__(self, parent: QWidget):
+                super().__init__()
+                self.p = parent
+                self.setWindowTitle("Add Admin")
+                self.setWindowIcon(QIcon('Appdata/images/lib.ico'))
+                self.setUi()
+
+            def setUi(self):
+                """
+                Function to set ui of add admin window widget.
+
+                This function does not take any Parameter and does not return any value.
+                """
+                reg = RegExp()
+                self.setWindowTitle("Pay Penalty")
+                self.setFixedSize(400,200)
+                layout = QGridLayout()
+                self.fn_lb = QLabel("First Name:")
+                self.fn_ln = QLineEdit("")
+                self.fn_ln.setValidator(CustomValidator(reg.stringValidator(),msg="firstname containing alphabates"))
+                self.fn_ln.setToolTip("Enter your first name")
+                self.ln_lb = QLabel("Last Name:")
+                self.ln_ln = QLineEdit("")
+                self.ln_ln.setValidator(CustomValidator(reg.stringValidator(),msg="lastname containing alphabates"))
+                self.ln_ln.setToolTip("Enter your last name")
+                self.verticalLayout = QVBoxLayout()
+                self.userid_lb = QLabel("Userid:")
+                self.userid_ln = QLineEdit("")
+                self.userid_ln.setValidator(CustomValidator(reg.useridValidator(),msg="username12@domain-name.com"))
+                self.userid_ln.setToolTip("Enter your userid\ne.g: username12@gmail.com")
+                self.userid_ln.setObjectName("add_admin_useidln")
+                self.userid_ln.textChanged.connect(self.p.checkUserId)
+                self.userexist_lb = QLabel("")
+                font = QFont()
+                font.setPointSize(7)
+                self.userexist_lb.setFont(font)
+                self.verticalLayout.addWidget(self.userid_ln)
+                self.verticalLayout.addWidget(self.userexist_lb)
+                self.pass_lb = QLabel("Password:")
+                self.pass_ln = QLineEdit("")
+                self.pass_ln.setEchoMode(QLineEdit.EchoMode.Password)
+                self.pass_ln.setToolTip("Enter password")
+                self.pass_ln.setPlaceholderText("Password must contain atleast 8 characters")
+                self.pass_ln.setToolTip("Password must contain atleast 8 characters")
+                self.checkBox = QCheckBox(parent=self)
+                self.checkBox.clicked.connect(self.p.toggleHidePassword)
+                self.checkBox.setObjectName("add_admin_cb")
+                icon11 = QIcon()
+                icon11.addPixmap(QPixmap(r"Appdata/images/invisible.jpg"), QIcon.Mode.Normal, QIcon.State.Off)
+                self.checkBox.setIcon(icon11)
+                self.checkBox.setChecked(True)
+
+                outer_layout = QVBoxLayout()
+                sp_item = QSpacerItem(40, 20, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+                self.add_admin_btn = QPushButton("Add Admin",self)
+                self.add_admin_btn.setFixedWidth(200)
+                layout.addWidget(self.fn_lb, 0, 0, 1, 1)
+                layout.addWidget(self.fn_ln, 0, 1, 1, 1)
+                layout.addWidget(self.ln_lb, 1, 0, 1, 1)
+                layout.addWidget(self.ln_ln, 1, 1, 1, 1)
+                layout.addWidget(self.userid_lb, 2, 0, 1, 1, Qt.AlignmentFlag.AlignCenter)
+                layout.addLayout(self.verticalLayout, 2, 1, 1, 1,Qt.AlignmentFlag.AlignBottom)
+                layout.addWidget(self.pass_lb, 3, 0, 1, 1)
+                layout.addWidget(self.pass_ln, 3, 1, 1, 1)
+                layout.addWidget(self.checkBox, 3, 2, 1, 1)
+                layout.setSpacing(0)
+                layout.setHorizontalSpacing(10)
+                layout.setVerticalSpacing(12)
+                outer_layout.addLayout(layout)
+                outer_layout.addSpacerItem(sp_item)
+                outer_layout.addWidget(self.add_admin_btn)
+                outer_layout.setAlignment(self.add_admin_btn, Qt.AlignmentFlag.AlignHCenter)
+                self.setLayout(outer_layout)
+                self.add_admin_btn.clicked.connect(self.addAdmin)
+            
+            def addAdmin(self):
+                """
+                Adds Admin user in database
+                
+                This function does not take any parameter and does not return any value
+                """
+                try:
+                    m = QMessageBox()
+                    e = CustomErrorAndLogWriting()
+                    Mydb = Dbconnection()
+                    c,db = Mydb.makeConnection()
+                    fn = ' '.join(self.fn_ln.text().split())
+                    ln = ' '.join(self.ln_ln.text().split())
+                    userid = self.userid_ln.text()
+                    p = self.pass_ln.text()
+                    
+                    if (fn != "") and ( ln != "") and (userid != "") and ("@" in userid and ".com" in userid) and (p != "") and len(p)>7:
+                        ano = Mydb.genid(c,"Ano","passwordsinfo")
+                        if ano is None:
+                            e.err = ErrorCodes(200)
+                            raise e
+                        failed = Mydb.insertAdmin_into_passwordinfo(c,ano,fn,ln,userid,p)
+                        if failed:
+                            e.err = ErrorCodes(310)
+                            raise e
+                        db.commit()
+                        m.information(self,"Success","New Admin is created sucessfully")
+                        self.p.stackedWidget.widget(0).setEnabled(True)
+                        self.close()
+                    else:
+                        m.warning(self,"Failed","Please fill the input fields correctly")
+                    c.close(); db.close()
+                except (AttributeError,Exception,CustomErrorAndLogWriting) as e:
+                    if isinstance(e,AttributeError):
+                        CustomErrorAndLogWriting().writeSingleErrorInLog(traceback.format_exc())
+                    elif isinstance(e,CustomErrorAndLogWriting):
+                        if e.err == ErrorCodes(200):
+                            e.writeFailedOperation("Failed to generate id for new admin user.")
+                        elif e.err == ErrorCodes(310):
+                            e.writeFailedOperation("Failed to insert new admin")
+                            try:
+                                db.rollback()
+                            except Exception:
+                                #to catch error related to rollback
+                                CustomErrorAndLogWriting().writeSingleErrorInLog(traceback.format_exc())
+                    elif isinstance(e,Exception):
+                        #to catch any error
+                        m.critical(self,"Error","Some error occured check logs to see those errors")
+                        CustomErrorAndLogWriting().writeSingleErrorInLog(traceback.format_exc())
+
+            def closeEvent(self, event: QCloseEvent):
+                """
+                Function implementing close event.
+
+                This function does not take any Parameter and does not return any value.
+                """
+                self.p.stackedWidget.widget(0).setEnabled(True)
+                event.accept()  # or event.ignore() to prevent closing
+
+        self.stackedWidget.widget(0).setEnabled(False)
+        msg = QMessageBox(parent=self.stackedWidget.widget(0))
+        msg.setWindowTitle("No Admin Detected")
+        msg.setText("There is no Admin account in the Application \n Want to add admin account first?")
+        btn_yes = msg.addButton("Yes", QMessageBox.ButtonRole.YesRole)
+        btn_no = msg.addButton("Maybe Later", QMessageBox.ButtonRole.NoRole)
+        msg.exec()
+
+        clicked = msg.clickedButton()
+        if clicked == btn_yes:
+            self.a = AddAdminWindow(parent=self)
+            self.a.show()
+        elif clicked == btn_no:
+            self.stackedWidget.widget(0).setEnabled(True)
+
     def checkDbConnection(self):
         #checking if database is ready for use
         try:
@@ -229,6 +392,12 @@ class MyApp(QMainWindow, ui.Ui_MainWindow):
                 e = EmailSender()
                 mydb = Dbconnection()
                 c,db = mydb.makeConnection()
+                res = mydb.checkIfNoAdmin(c)
+                if res is None:
+                    e.err = ErrorCodes(405)
+                    raise e
+                if res :
+                    self.showAddAdminWidget()
                 failed = mydb.updatePenaltyInBorrowerDetails(c)
                 if failed:
                     e.err = ErrorCodes(602)
@@ -252,6 +421,7 @@ class MyApp(QMainWindow, ui.Ui_MainWindow):
             elif isinstance(e,CustomErrorAndLogWriting):
                 error_messages = {
             ErrorCodes(602):"Failed to update penalty of borrowers in borrower details.",
+            ErrorCodes(405):"Failed to check if there is user or not in database.",
             }
                 if e.err in error_messages:
                     e.writeFailedOperation(emsg=error_messages[e.err])
@@ -428,6 +598,7 @@ class MyApp(QMainWindow, ui.Ui_MainWindow):
             e = CustomErrorAndLogWriting()
             c,db = Mydb.makeConnection()
             ob = self.sender().objectName()
+            #self.userid_input.textChanged.connect(self.checkUserId)
             if ob == self.userid_input.objectName():
                 userid = str(self.userid_input.text())
                 res = Mydb.search_userid(c,userid)
@@ -458,6 +629,18 @@ class MyApp(QMainWindow, ui.Ui_MainWindow):
                 else:
                     self.label_3a.setText("User id is already occupied")
                     self.is_userid_unique = False
+            elif ob == "add_admin_useidln":
+                userid = str(self.sender().text())
+                res = Mydb.search_userid(c,userid)
+                if res == None:
+                    e.err = ErrorCodes(101)
+                    raise e
+                #updating label to show if userid is taken or not for new library card apply page.
+                if res == True:
+                    self.sender().parent().userexist_lb.setText("")
+                
+                else:
+                    self.sender().parent().userexist_lb.setText("User id is already occupied")
             c.close(); db.close()
 
         except (AttributeError,Exception,CustomErrorAndLogWriting) as e :
@@ -511,6 +694,17 @@ class MyApp(QMainWindow, ui.Ui_MainWindow):
                 self.pass_lineedit.setEchoMode(QLineEdit.EchoMode.Normal)
             self.hide_cb.setIconSize(QSize(16, 16))
             self.hide_cb.setIcon(icon)
+
+        elif ob == 'add_admin_cb':
+            icon = QIcon()
+            if self.sender().isChecked():
+                icon.addPixmap(QPixmap(r"Appdata/images/invisible.jpg"), QIcon.Mode.Normal, QIcon.State.Off)
+                self.sender().parent().pass_ln.setEchoMode(QLineEdit.EchoMode.Password)
+            else: 
+                icon.addPixmap(QPixmap(r"Appdata/images/visible.jpg"))
+                self.sender().parent().pass_ln.setEchoMode(QLineEdit.EchoMode.Normal)
+            self.sender().setIconSize(QSize(16, 16))
+            self.sender().setIcon(icon)
 
     def beforClose(self):
         '''
@@ -706,7 +900,7 @@ class MyApp(QMainWindow, ui.Ui_MainWindow):
                 widget = self.horizontalLayout_9c.itemAt(i).widget()
                 if widget is not None:
                     widget.setVisible(True)
-        elif role == '':
+        elif role == 'Librarian':
             for i in range(self.horizontalLayout_9b.count()):
                 widget = self.horizontalLayout_9b.itemAt(i).widget()
                 if widget is not None:
@@ -1568,7 +1762,6 @@ class MyApp(QMainWindow, ui.Ui_MainWindow):
             self.payPenalty(data)
         elif clicked == btn_no:
             self.paypenaltybtn.setHidden(False)
-            pass
 
     def payPenalty(self,dataset: list):
         """
@@ -2545,20 +2738,21 @@ class MyApp(QMainWindow, ui.Ui_MainWindow):
         This function does not return any value.
         """
         try:
-            self.bookmanagement_tableWidget.itemChanged.disconnect(self.changedBookInfo)
-            self.bookmanagement_tableWidget.clear()
-            self.bookmanagement_tableWidget.setRowCount(0)
-            self.bookmanagement_tableWidget.setColumnCount(len(result[0]))
-            self.bookmanagement_tableWidget.setHorizontalHeaderLabels(header)
-            self.bookmanagement_tableWidget.setColumnWidth(0, 50)
-            for rowno, row_data in enumerate(result):
-                self.bookmanagement_tableWidget.insertRow(rowno)
-                for colno, data in enumerate(row_data):
-                    item = QTableWidgetItem(str(data))
-                    item.setFlags(item.flags() & ~Qt.ItemFlag.ItemIsEditable)
-                    self.bookmanagement_tableWidget.setItem(rowno,colno,item)
-            self.bookmanagement_tableWidget.hideColumn(0)
-            self.bookmanagement_tableWidget.hideColumn(1)
+            if result:
+                self.bookmanagement_tableWidget.itemChanged.disconnect(self.changedBookInfo)
+                self.bookmanagement_tableWidget.clear()
+                self.bookmanagement_tableWidget.setRowCount(0)
+                self.bookmanagement_tableWidget.setColumnCount(len(result[0]))
+                self.bookmanagement_tableWidget.setHorizontalHeaderLabels(header)
+                self.bookmanagement_tableWidget.setColumnWidth(0, 50)
+                for rowno, row_data in enumerate(result):
+                    self.bookmanagement_tableWidget.insertRow(rowno)
+                    for colno, data in enumerate(row_data):
+                        item = QTableWidgetItem(str(data))
+                        item.setFlags(item.flags() & ~Qt.ItemFlag.ItemIsEditable)
+                        self.bookmanagement_tableWidget.setItem(rowno,colno,item)
+                self.bookmanagement_tableWidget.hideColumn(0)
+                self.bookmanagement_tableWidget.hideColumn(1)
         
         except TypeError:
             pass

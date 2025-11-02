@@ -108,8 +108,35 @@ class Dbconnection():
         
         except mysql.connector.Error as err :
             #self.l.writeDBErrorLog(err)
-            CustomErrorAndLogWriting().writeSingleErrorInLog(emsg=err.msg+traceback.format_exc()+"ypo")
+            CustomErrorAndLogWriting().writeSingleErrorInLog(emsg=err.msg+traceback.format_exc())
             return False
+
+    def checkIfNoAdmin(self,c:'MySQLCursorAbstract'):
+        """
+        Checks if there is no user. Used basically when database is initilized with empty data
+
+        This function does not take any parameter and does not return any value.
+        """
+        try:
+            q = "SELECT * FROM `passwordsinfo` WHERE role = 1;"
+            c.execute(q)
+            res = c.fetchall()
+            if len(res) == 0:
+                return True
+            else:
+                return False
+        
+        except AttributeError as e :
+            CustomErrorAndLogWriting().writeSingleErrorInLog(emsg=str(e)+traceback.format_exc())
+            return None
+
+        except TypeError as e:
+            CustomErrorAndLogWriting().writeSingleErrorInLog(emsg=e+traceback.format_exc())
+            return None
+                
+        except mysql.connector.Error as e:
+            CustomErrorAndLogWriting().writeSingleErrorInLog(emsg=e.msg+traceback.format_exc())
+            return None
 
     def genid(self,c:'MySQLCursorAbstract',tid:str,tname:str):
         """
@@ -179,6 +206,36 @@ class Dbconnection():
         except mysql.connector.Error as e:
             CustomErrorAndLogWriting().writeSingleErrorInLog(emsg=e.msg+traceback.format_exc())
             return None
+
+    def insertAdmin_into_passwordinfo(self,c:'MySQLCursorAbstract',ano:str,fn:str,ln:str,userid:str,p:str):
+        """
+        Insert Admin user in db.
+
+        Parameters:
+            c(MySQLCursorAbstract): cursor object.
+            ano(str): primary key of table.
+            fn(str): first name.
+            ln(str): last name.
+            userid(str): userid.
+            p(str): password.
+        
+        Returns:
+            failed(bool): returns the failed flag True if failed.
+        """
+        try:
+            val=(ano,fn,ln,userid,p)
+            query="INSERT INTO  passwordsinfo (Ano,FirstName,Lastname,userid,pass,role) VALUES (%s,%s,%s,%s,%s,1)" 
+            c.execute(query,val)
+            failed = False
+
+        except AttributeError as e:
+            CustomErrorAndLogWriting().writeSingleErrorInLog(emsg=str(e)+traceback.format_exc())
+            failed = True
+            
+        except mysql.connector.Error as e:
+            CustomErrorAndLogWriting().writeSingleErrorInLog(emsg=e.msg+traceback.format_exc())
+            failed = True
+        return failed
     
     def insert_into_passwordinfo(self,c:'MySQLCursorAbstract',ano:str,fn:str,ln:str,userid:str,p:str):
         """
@@ -1391,8 +1448,12 @@ if __name__ == "__main__":
     from PyQt6.QtWidgets import QApplication, QWidget
     app = QApplication(sys.argv)
     window = QWidget()
-    window.show()
     Mydb = Dbconnection()
     c,db = Mydb.makeConnection()
+    window.show()
+    c.execute("SELECT * FROM passwordsinfo;")
+    res = c.fetchall()
+    print(res, len(res))
+
     sys.exit(app.exec())
     
