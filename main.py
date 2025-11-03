@@ -1566,9 +1566,9 @@ class MyApp(QMainWindow, ui.Ui_MainWindow):
         
         This function does not return any value.
         """
-        if text != '':
-            self.ok_btn_3.setEnabled(True)
-        self.ok_btn_3.setDisabled(True)
+        self.ok_btn_3.setDisabled(False)
+        if text == '':
+            self.ok_btn_3.setDisabled(True)
 
     def setScanAndAddbtn(self):
         """
@@ -2365,7 +2365,7 @@ class MyApp(QMainWindow, ui.Ui_MainWindow):
                         if res is None:
                             e.err = ErrorCodes(812)
                             raise e
-                        booktitle = booktitle + str(row[0]) +'\n'
+                        booktitle = booktitle + str(res[0]) +'\n'
                             
                 m.information(self,"success","The books: '{}' are returned successfully!!".format(str(booktitle)))
                 self.libcardno_ln_2.clear()
